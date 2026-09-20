@@ -8,14 +8,14 @@
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         :root {
-            --bg: #050505;
-            --panel-bg: rgba(10, 10, 10, 0.98);
-            --fg: #d4af37; /* Edles Gold */
-            --fg-bright: #ffd700; /* Helles Gold für Highlights */
-            --fg-dim: #7a6820; /* Gedimmtes Gold */
-            --border: 1px solid rgba(212, 175, 55, 0.35);
-            --glow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.08);
-            --glow-alert: 0 0 35px rgba(255, 0, 0, 0.5);
+            --bg: #030303;
+            --panel-bg: rgba(8, 8, 8, 0.96);
+            --fg: #c5a059; /* Edles, dezentes Gold */
+            --fg-bright: #e2b96d; /* Helles Gold für Highlights */
+            --fg-dim: #604d22; /* Gedimmtes Gold */
+            --border: 1px solid rgba(197, 160, 89, 0.25);
+            --glow: 0 0 10px rgba(197, 160, 89, 0.08); /* Stark reduzierter Glow */
+            --glow-alert: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
         * {
@@ -44,8 +44,8 @@
             inset: 0;
             background: repeating-linear-gradient(
                 0deg,
-                rgba(0, 0, 0, 0.45),
-                rgba(0, 0, 0, 0.45) 1px,
+                rgba(0, 0, 0, 0.3),
+                rgba(0, 0, 0, 0.3) 1px,
                 transparent 1px,
                 transparent 2px
             );
@@ -53,32 +53,23 @@
             pointer-events: none;
         }
 
-        body::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            box-shadow: inset 0 0 300px rgba(0,0,0,0.98);
-            z-index: 998;
-            pointer-events: none;
-        }
-
         #bg-canvas {
             position: absolute;
             inset: 0;
             z-index: 1;
-            opacity: 0.18;
+            opacity: 0.12;
         }
 
         #lock-screen {
             position: fixed;
             inset: 0;
-            background: #000;
+            background: #030303;
             z-index: 1000;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: all 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+            transition: opacity 0.4s ease;
         }
 
         .auth-card {
@@ -88,7 +79,6 @@
             width: 650px;
             background: var(--panel-bg);
             position: relative;
-            clip-path: polygon(25px 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 25px);
         }
 
         .auth-title {
@@ -120,15 +110,14 @@
         .pass-row {
             display: flex;
             align-items: center;
-            background: rgba(212, 175, 55, 0.04);
+            background: rgba(197, 160, 89, 0.02);
             border: 1px solid var(--fg-dim);
             padding: 16px 20px;
-            transition: all 0.3s;
+            transition: border-color 0.2s;
         }
 
         .pass-row:focus-within {
             border-color: var(--fg-bright);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
         .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg-bright); }
@@ -155,12 +144,11 @@
             height: 12px;
             border: 1px solid var(--fg-dim);
             background: transparent;
-            transition: all 0.2s;
+            transition: background 0.2s, border-color 0.2s;
         }
         .pass-dot.active {
             background: var(--fg-bright);
             border-color: var(--fg-bright);
-            box-shadow: 0 0 12px var(--fg-bright);
         }
 
         #app {
@@ -172,8 +160,8 @@
             padding: 20px;
             gap: 15px;
             opacity: 0;
-            transform: scale(0.98) translateY(15px);
-            transition: all 0.6s cubic-bezier(0.1, 0.9, 0.2, 1);
+            transform: scale(0.99) translateY(10px);
+            transition: opacity 0.4s ease, transform 0.4s ease;
         }
         #app.active { opacity: 1; transform: scale(1) translateY(0); }
 
@@ -185,7 +173,6 @@
             padding: 15px 30px;
             background: var(--panel-bg);
             box-shadow: var(--glow);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
         }
 
         .brand { font-size: 1.6rem; letter-spacing: 5px; font-weight: bold; display: flex; align-items: center; gap: 15px; color: var(--fg-bright); }
@@ -199,9 +186,9 @@
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: bold;
-            transition: all 0.2s;
+            transition: background 0.2s, color 0.2s;
         }
-        .btn-toggle:hover { background: var(--fg); color: var(--bg); box-shadow: 0 0 15px var(--fg); }
+        .btn-toggle:hover { background: var(--fg); color: var(--bg); }
 
         .main-grid {
             display: grid;
@@ -217,11 +204,10 @@
             display: flex;
             flex-direction: column;
             box-shadow: var(--glow);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
         }
 
         .panel-head {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(197, 160, 89, 0.05);
             border-bottom: var(--border);
             color: var(--fg-bright);
             padding: 12px 20px;
@@ -236,7 +222,7 @@
 
         .widget {
             border: 1px dashed var(--fg-dim);
-            background: rgba(0,0,0,0.6);
+            background: rgba(0,0,0,0.4);
             padding: 14px;
             display: flex;
             flex-direction: column;
@@ -245,10 +231,10 @@
         .widget-title { font-size: 0.85rem; color: var(--fg-dim); letter-spacing: 2px; }
         .widget-val { font-size: 1.5rem; font-weight: bold; color: var(--fg-bright); }
         .bar-outer { height: 8px; background: #000; border: 1px solid var(--fg-dim); width: 100%; }
-        .bar-inner { height: 100%; background: var(--fg); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px var(--fg); }
+        .bar-inner { height: 100%; background: var(--fg); width: 0%; transition: width 0.2s linear; }
 
         textarea {
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.6);
             border: 1px solid var(--fg-dim);
             color: var(--fg-bright);
             width: 100%;
@@ -257,10 +243,10 @@
             resize: none;
             outline: none;
             font-size: 1.1rem;
-            transition: all 0.2s;
+            transition: border-color 0.2s;
             letter-spacing: 2px;
         }
-        textarea:focus { border-color: var(--fg-bright); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        textarea:focus { border-color: var(--fg-bright); }
 
         .btn-cyber {
             background: transparent;
@@ -271,14 +257,13 @@
             font-weight: bold;
             letter-spacing: 4px;
             font-size: 0.95rem;
-            transition: all 0.15s;
+            transition: background 0.15s, color 0.15s;
         }
         .btn-cyber:hover {
             background: var(--fg);
             color: var(--bg);
-            box-shadow: 0 0 25px var(--fg);
         }
-        .btn-cyber:active { transform: scale(0.98); }
+        .btn-cyber:active { transform: scale(0.99); }
 
         .output-container {
             position: relative;
@@ -301,7 +286,7 @@
         }
 
         .btn-copy {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(197, 160, 89, 0.05);
             border: 1px solid var(--fg);
             border-top: none;
             color: var(--fg);
@@ -311,34 +296,26 @@
             font-size: 0.85rem;
             font-weight: bold;
             letter-spacing: 3px;
-            transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
+            transition: background 0.2s, color 0.2s;
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            overflow: hidden;
         }
 
         .btn-copy:hover {
             background: var(--fg);
             color: var(--bg);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-            letter-spacing: 5px;
-        }
-        
-        .btn-copy:active {
-            transform: scale(0.98);
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-15px); }
-            40%, 80% { transform: translateX(15px); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
         }
-        .shake { animation: shake 0.3s ease-in-out; }
+        .shake { animation: shake 0.2s ease-in-out; }
 
         .hidden { display: none !important; }
-        .error-text { color: #ffffff !important; background: #330000 !important; border-color: #ff0000 !important; text-shadow: 0 0 10px #ff0000; }
+        .error-text { color: #ff6b6b !important; background: #200000 !important; border-color: #ff4d4d !important; }
         
         .terminal-log-extended {
             font-size: 0.75rem;
@@ -389,7 +366,7 @@
         
         <div class="top-bar">
             <div class="brand">
-                <span style="display:inline-block; width:18px; height:18px; background:var(--fg-bright); box-shadow:0 0 15px var(--fg-bright);"></span>
+                <span style="display:inline-block; width:14px; height:14px; background:var(--fg-bright);"></span>
                 GAMBLE GMBH
             </div>
             <div class="top-controls">
@@ -496,15 +473,15 @@
             } catch(e) {}
         }
 
-        function sndClick() { playSound(1400, 'square', 0.03, 0.15); } 
-        function sndHover() { playSound(2200, 'sine', 0.02, 0.05); }   
-        function sndBeep()  { playSound(1000, 'triangle', 0.04, 0.12); } 
-        function sndError() { playSound(120, 'sawtooth', 0.3, 0.3); }   
+        function sndClick() { playSound(1400, 'square', 0.03, 0.1); } 
+        function sndHover() { playSound(2200, 'sine', 0.02, 0.03); }   
+        function sndBeep()  { playSound(1000, 'triangle', 0.04, 0.08); } 
+        function sndError() { playSound(120, 'sawtooth', 0.2, 0.2); }   
         function sndSuccess() {
-            playSound(523, 'square', 0.1, 0.15);
-            setTimeout(() => playSound(659, 'square', 0.1, 0.15), 80);
-            setTimeout(() => playSound(783, 'square', 0.1, 0.15), 160);
-            setTimeout(() => playSound(1046, 'square', 0.25, 0.2), 240);
+            playSound(523, 'square', 0.08, 0.1);
+            setTimeout(() => playSound(659, 'square', 0.08, 0.1), 60);
+            setTimeout(() => playSound(783, 'square', 0.08, 0.1), 120);
+            setTimeout(() => playSound(1046, 'square', 0.15, 0.12), 180);
         }
 
         function toggleSFX() {
@@ -520,13 +497,13 @@
                 sndSuccess();
                 const originalHTML = btnElement.innerHTML;
                 btnElement.innerHTML = "COPIED";
-                btnElement.style.background = "#ffd700";
-                btnElement.style.color = "#000";
+                btnElement.style.background = "#e2b96d";
+                btnElement.style.color = "#030303";
                 setTimeout(() => {
                     btnElement.innerHTML = originalHTML;
                     btnElement.style.background = "";
                     btnElement.style.color = "";
-                }, 1500);
+                }, 1200);
             });
         }
 
@@ -561,7 +538,7 @@
             if (input === MASTER_PASS) {
                 sndSuccess();
                 passInput.value = "GRANTED";
-                document.getElementById('lock-status').style.color = "#ffd700";
+                document.getElementById('lock-status').style.color = "#e2b96d";
                 document.getElementById('lock-status').innerText = "GRANTED";
                 
                 setTimeout(() => {
@@ -569,22 +546,22 @@
                     setTimeout(() => {
                         document.getElementById('lock-screen').classList.add('hidden');
                         document.getElementById('app').classList.add('active');
-                    }, 500);
-                }, 500);
+                    }, 400);
+                }, 400);
             } else {
                 sndError();
                 card.classList.add('shake');
                 passInput.value = "";
                 passInput.placeholder = "DENIED";
-                document.getElementById('auth-card').style.borderColor = "#ff0000";
-                document.getElementById('auth-card').style.boxShadow = "var(--glow-alert)";
+                card.style.borderColor = "#ff4d4d";
+                card.style.boxShadow = "var(--glow-alert)";
                 document.querySelectorAll('.pass-dot').forEach(d => d.classList.remove('active'));
                 setTimeout(() => {
                     card.classList.remove('shake');
-                    document.getElementById('auth-card').style.borderColor = "var(--border)";
-                    document.getElementById('auth-card').style.boxShadow = "var(--glow)";
+                    card.style.borderColor = "var(--border)";
+                    card.style.boxShadow = "var(--glow)";
                     passInput.placeholder = "••••••••";
-                }, 500);
+                }, 400);
             }
         }
 
@@ -602,7 +579,7 @@
             const enc = new TextEncoder();
             const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
             return crypto.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 100000, hash: "SHA-256" },
+                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 50000, hash: "SHA-256" },
                 keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
             );
         }
@@ -647,7 +624,7 @@
 
         function scrambleText(elementId, finalText) {
             const el = document.getElementById(elementId);
-            let steps = 30, current = 0;
+            let steps = 15, current = 0; // Verkürzt für maximale Performance
             const timer = setInterval(() => {
                 current++;
                 if (current >= steps) {
@@ -658,10 +635,10 @@
                 } else {
                     sndBeep();
                     let rnd = "";
-                    for (let i = 0; i < Math.min(finalText.length, 120); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
+                    for (let i = 0; i < Math.min(finalText.length, 60); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
                     el.innerText = rnd;
                 }
-            }, 25);
+            }, 20);
         }
 
         async function processEncrypt() {
@@ -678,31 +655,39 @@
             scrambleText('decrypt-output', res);
         }
 
-        setInterval(() => {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString('de-DE') + ":" + String(now.getMilliseconds()).padStart(3, '0');
-            document.getElementById('clock').innerText = timeString;
-            
-            const cpu = Math.floor(Math.random() * 45 + 20);
-            document.getElementById('cpu-val').innerText = cpu + "%";
-            document.getElementById('cpu-bar').style.width = cpu + "%";
-            const ram = (4.2 + Math.random() * 2.1).toFixed(2);
-            document.getElementById('ram-val').innerText = ram + " GB";
-            document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
+        // Ticker & Uhrzeit mit rAF/gedrosselten Intervallen für absolute Flüssigkeit
+        let lastUpdate = 0;
+        function updateSystemState(timestamp) {
+            if (timestamp - lastUpdate > 500) { // Aktualisierung alle 500ms
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('de-DE') + ":" + String(now.getMilliseconds()).padStart(3, '0');
+                document.getElementById('clock').innerText = timeString;
+                
+                const cpu = Math.floor(Math.random() * 35 + 15);
+                document.getElementById('cpu-val').innerText = cpu + "%";
+                document.getElementById('cpu-bar').style.width = cpu + "%";
+                const ram = (4.2 + Math.random() * 1.5).toFixed(2);
+                document.getElementById('ram-val').innerText = ram + " GB";
+                document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
 
-            const stream = document.getElementById('traffic-stream');
-            const line = document.createElement('div');
-            line.innerText = `0x${Math.floor(Math.random()*99999999).toString(16).toUpperCase()} // PACKET_INJECT`;
-            stream.prepend(line);
-            if(stream.children.length > 9) stream.removeChild(stream.lastChild);
-        }, 500);
+                const stream = document.getElementById('traffic-stream');
+                const line = document.createElement('div');
+                line.innerText = `0x${Math.floor(Math.random()*99999999).toString(16).toUpperCase()} // PACKET_INJECT`;
+                stream.prepend(line);
+                if(stream.children.length > 8) stream.removeChild(stream.lastChild);
+                
+                lastUpdate = timestamp;
+            }
+            requestAnimationFrame(updateSystemState);
+        }
+        requestAnimationFrame(updateSystemState);
 
         const rCanvas = document.getElementById('radar-canvas');
         const rCtx = rCanvas.getContext('2d');
         let angle = 0;
         function drawRadar() {
             rCtx.clearRect(0, 0, 180, 180);
-            rCtx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
+            rCtx.strokeStyle = 'rgba(197, 160, 89, 0.2)';
             rCtx.lineWidth = 1;
             rCtx.beginPath(); 
             rCtx.arc(90, 90, 80, 0, Math.PI * 2); 
@@ -710,20 +695,20 @@
             rCtx.arc(90, 90, 20, 0, Math.PI * 2); 
             rCtx.stroke();
             
-            rCtx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
+            rCtx.strokeStyle = 'rgba(197, 160, 89, 0.1)';
             rCtx.beginPath();
             rCtx.moveTo(90, 10); rCtx.lineTo(90, 170);
             rCtx.moveTo(10, 90); rCtx.lineTo(170, 90);
             rCtx.stroke();
 
-            rCtx.strokeStyle = '#ffd700';
-            rCtx.lineWidth = 2;
+            rCtx.strokeStyle = '#e2b96d';
+            rCtx.lineWidth = 1.5;
             rCtx.beginPath(); 
             rCtx.moveTo(90, 90); 
             rCtx.lineTo(90 + 80 * Math.cos(angle), 90 + 80 * Math.sin(angle)); 
             rCtx.stroke();
 
-            angle += 0.04;
+            angle += 0.03;
             requestAnimationFrame(drawRadar);
         }
         drawRadar();
@@ -732,22 +717,26 @@
         const bgCtx = bgCanvas.getContext('2d');
         function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
         resizeBg(); window.addEventListener('resize', resizeBg);
+        
         const matrixChars = ALL_RAND_CHARS.split('');
-        const drops = Array(Math.floor(window.innerWidth / 14)).fill(1);
-        setInterval(() => {
-            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.12)';
+        const drops = Array(Math.floor(window.innerWidth / 16)).fill(1);
+        
+        function drawMatrix() {
+            bgCtx.fillStyle = 'rgba(3, 3, 3, 0.15)';
             bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-            bgCtx.fillStyle = '#d4af37';
+            bgCtx.fillStyle = '#c5a059';
             bgCtx.font = '12px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                bgCtx.fillText(char, i * 14, drops[i] * 14);
-                if (drops[i] * 14 > bgCanvas.height && Math.random() > 0.975) {
+                bgCtx.fillText(char, i * 16, drops[i] * 16);
+                if (drops[i] * 16 > bgCanvas.height && Math.random() > 0.98) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
-        }, 50);
+            setTimeout(() => requestAnimationFrame(drawMatrix), 40); // Auf ~25 FPS gedrosselt für flüssige CPU-Last
+        }
+        requestAnimationFrame(drawMatrix);
     </script>
 </body>
 </html>

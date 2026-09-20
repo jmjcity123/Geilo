@@ -14,7 +14,7 @@
             --fg-bright: #e2b96d; /* Helles Gold für Highlights */
             --fg-dim: #604d22; /* Gedimmtes Gold */
             --border: 1px solid rgba(197, 160, 89, 0.25);
-            --glow: 0 0 10px rgba(197, 160, 89, 0.08); /* Stark reduzierter Glow */
+            --glow: 0 0 10px rgba(197, 160, 89, 0.08);
             --glow-alert: 0 0 20px rgba(255, 0, 0, 0.3);
         }
 
@@ -90,6 +90,26 @@
             padding-bottom: 15px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+
+        .discord-btn-top {
+            background: transparent;
+            border: 1px solid var(--fg);
+            color: var(--fg);
+            padding: 5px 12px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            text-decoration: none;
+            letter-spacing: 2px;
+            transition: background 0.2s, color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .discord-btn-top:hover {
+            background: var(--fg);
+            color: var(--bg);
         }
 
         .boot-seq {
@@ -337,7 +357,7 @@
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
                 <span>GAMBLE // AUTH</span>
-                <span style="font-size: 0.9rem; color: var(--fg-dim);" id="lock-status">SEC_MAX</span>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="discord-btn-top">DISCORD</a>
             </div>
             <div class="boot-seq" id="boot-seq">
                 &gt; INITIALIZING GAMBLE MATRIX...<br>
@@ -473,7 +493,6 @@
             } catch(e) {}
         }
 
-        function sndClick() { playSound(1400, 'square', 0.03, 0.1); } 
         function sndHover() { playSound(2200, 'sine', 0.02, 0.03); }   
         function sndBeep()  { playSound(1000, 'triangle', 0.04, 0.08); } 
         function sndError() { playSound(120, 'sawtooth', 0.2, 0.2); }   
@@ -509,7 +528,7 @@
 
         const passInput = document.getElementById('pass-input');
         passInput.addEventListener('input', () => {
-            sndClick();
+            // Tipp-Sound komplett entfernt
             const len = passInput.value.length;
             const dots = document.querySelectorAll('.pass-dot');
             dots.forEach((dot, idx) => {
@@ -519,15 +538,11 @@
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                if (e.key !== 'Enter') sndClick();
-            }
             if (e.key === 'Enter' && e.target.id === 'pass-input') verifyPass();
         });
 
         document.querySelectorAll('button').forEach(btn => {
             btn.addEventListener('mouseenter', sndHover);
-            btn.addEventListener('mousedown', sndClick);
         });
 
         const MASTER_PASS = "Gamble";
@@ -624,7 +639,7 @@
 
         function scrambleText(elementId, finalText) {
             const el = document.getElementById(elementId);
-            let steps = 15, current = 0; // Verkürzt für maximale Performance
+            let steps = 15, current = 0;
             const timer = setInterval(() => {
                 current++;
                 if (current >= steps) {
@@ -655,10 +670,9 @@
             scrambleText('decrypt-output', res);
         }
 
-        // Ticker & Uhrzeit mit rAF/gedrosselten Intervallen für absolute Flüssigkeit
         let lastUpdate = 0;
         function updateSystemState(timestamp) {
-            if (timestamp - lastUpdate > 500) { // Aktualisierung alle 500ms
+            if (timestamp - lastUpdate > 500) {
                 const now = new Date();
                 const timeString = now.toLocaleTimeString('de-DE') + ":" + String(now.getMilliseconds()).padStart(3, '0');
                 document.getElementById('clock').innerText = timeString;
@@ -734,7 +748,7 @@
                 }
                 drops[i]++;
             }
-            setTimeout(() => requestAnimationFrame(drawMatrix), 40); // Auf ~25 FPS gedrosselt für flüssige CPU-Last
+            setTimeout(() => requestAnimationFrame(drawMatrix), 40);
         }
         requestAnimationFrame(drawMatrix);
     </script>

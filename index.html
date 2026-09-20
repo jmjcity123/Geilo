@@ -3,632 +3,801 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAMBLE_CORE // WHITE_EDITION</title>
+    <title>GAMBLE_GMBH // SPOTX_EDITION</title>
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
         :root {
             --bg: #030303;
-            --panel-bg: rgba(10, 10, 10, 0.85);
+            --panel-bg: rgba(10, 10, 10, 0.9);
             --fg: #ffffff;
             --fg-dim: #777777;
-            --border: 1px solid rgba(255, 255, 255, 0.2);
-            --glow: 0 0 10px rgba(255, 255, 255, 0.4);
-            --glow-strong: 0 0 20px rgba(255, 255, 255, 0.7);
+            --primary: #ffd700;
+            --border: 1px solid rgba(255, 215, 0, 0.3);
+            --glow: 0 0 10px rgba(255, 215, 0, 0.3);
+            --glow-strong: 0 0 20px rgba(255, 215, 0, 0.5);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: 'Share Tech Mono', monospace;
+            font-family: 'Share TechMono', 'Share Tech Mono', monospace;
             text-transform: uppercase;
-            user-select: none;
         }
 
         body {
             background-color: var(--bg);
             color: var(--fg);
-            height: 100vh;
-            width: 100vw;
-            overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        #matrix-canvas {
+        /* MATRIX / BACKGROUND GLOW */
+        .bg-glow {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            z-index: 1;
-            opacity: 0.15;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.1) 0%, transparent 70%);
+            top: -150px;
+            left: -150px;
+            z-index: 0;
             pointer-events: none;
         }
 
-        #lock-screen {
+        /* WELCOME OVERLAY (DISCORD GATE) */
+        #welcome-overlay {
             position: fixed;
             inset: 0;
             background: rgba(3, 3, 3, 0.95);
             backdrop-filter: blur(8px);
-            z-index: 1000;
+            z-index: 9999;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
         }
 
-        .auth-card {
-            border: var(--border);
-            padding: 40px;
-            width: 550px;
+        .welcome-card {
             background: var(--panel-bg);
+            border: var(--border);
             box-shadow: var(--glow-strong);
+            padding: 30px 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
             position: relative;
-            clip-path: polygon(0 0, 95% 0, 100% 10%, 100% 100%, 5% 100%, 0 90%);
         }
 
-        .auth-title {
-            font-size: 1.4rem;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            color: var(--fg);
+        .welcome-card h1 {
+            font-size: 1.6rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            color: var(--primary);
             text-shadow: var(--glow);
-            border-bottom: var(--border);
-            padding-bottom: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
         }
 
-        .boot-seq {
-            font-size: 0.8rem;
+        .welcome-card p {
             color: var(--fg-dim);
-            height: 75px;
-            overflow: hidden;
             margin-bottom: 20px;
+            font-size: 0.85rem;
             line-height: 1.5;
         }
 
-        .pass-container {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-
-        .pass-row {
+        .btn-discord-join {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            border: var(--border);
-            padding: 12px 18px;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
-        }
-
-        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
-        
-        input[type="password"] {
-            background: transparent;
-            border: none;
-            color: var(--fg);
-            font-size: 1.2rem;
-            outline: none;
-            width: 100%;
-            letter-spacing: 4px;
-        }
-
-        .pass-dots {
-            display: flex;
-            gap: 10px;
             justify-content: center;
-            margin-top: 5px;
+            gap: 10px;
+            background: #5865F2;
+            color: #fff;
+            padding: 12px;
+            text-decoration: none;
+            font-weight: bold;
+            margin-bottom: 12px;
+            transition: opacity 0.2s;
         }
 
-        .pass-dot {
-            width: 10px;
-            height: 10px;
-            border: 1px solid var(--fg-dim);
-            background: transparent;
-            transform: rotate(45deg);
+        .btn-discord-join:hover {
+            opacity: 0.85;
+        }
+
+        .btn-proceed {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: rgba(255, 215, 0, 0.1);
+            border: var(--border);
+            color: var(--primary);
+            padding: 12px;
+            width: 100%;
+            font-weight: bold;
+            cursor: pointer;
+            opacity: 0.3;
+            pointer-events: none;
             transition: 0.2s;
         }
-        .pass-dot.active {
-            background: var(--fg);
-            border-color: var(--fg);
+
+        .btn-proceed.active {
+            opacity: 1;
+            pointer-events: auto;
+            background: var(--primary);
+            color: #000;
+        }
+
+        .btn-proceed.active:hover {
             box-shadow: var(--glow);
         }
 
-        #app {
-            position: relative;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-            padding: 15px;
-            gap: 12px;
+        /* MAIN WEBSITE CONTENT */
+        #main-content {
             display: none;
-        }
-        #app.active { 
-            display: flex; 
+            position: relative;
+            z-index: 1;
         }
 
-        .top-bar {
+        #main-content.visible {
+            display: block;
+        }
+
+        /* NAVBAR */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border: var(--border);
-            padding: 12px 25px;
+            padding: 20px 8%;
             background: var(--panel-bg);
-            box-shadow: var(--glow);
+            border-bottom: var(--border);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
         }
 
-        .brand { font-size: 1.4rem; letter-spacing: 3px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
-        .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
-
-        .btn-discord {
-            background: rgba(255, 255, 255, 0.05);
-            border: var(--border);
-            color: var(--fg);
-            padding: 6px 12px;
-            cursor: pointer;
-            font-size: 0.75rem;
+        .logo {
+            font-size: 1.2rem;
+            letter-spacing: 2px;
             font-weight: bold;
+            color: var(--primary);
+            text-shadow: var(--glow);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            list-style: none;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--fg-dim);
             text-decoration: none;
+            font-size: 0.85rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-discord {
+            background: rgba(255, 215, 0, 0.05);
+            border: var(--border);
+            color: var(--primary) !important;
+            padding: 6px 14px;
+        }
+
+        /* HERO SECTION */
+        header.hero {
+            padding: 180px 8% 80px 8%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .hero-badge {
+            background: rgba(255, 215, 0, 0.05);
+            border: var(--border);
+            color: var(--primary);
+            padding: 6px 16px;
+            font-size: 0.75rem;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        header.hero h1 {
+            font-size: 2.8rem;
+            letter-spacing: 2px;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            max-width: 900px;
+        }
+
+        header.hero h1 span {
+            color: var(--primary);
+            text-shadow: var(--glow);
+        }
+
+        header.hero p {
+            color: var(--fg-dim);
+            font-size: 0.95rem;
+            max-width: 600px;
+            margin-bottom: 35px;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .btn-main {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--primary);
+            color: #000;
+            font-weight: bold;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
             letter-spacing: 1px;
             transition: 0.2s;
         }
-        .btn-discord:hover {
-            background: var(--fg);
-            color: #000;
+
+        .btn-main:hover {
             box-shadow: var(--glow-strong);
         }
 
-        .main-grid {
-            display: grid;
-            grid-template-columns: 300px 1fr 300px;
-            gap: 12px;
-            flex-grow: 1;
-            min-height: 0;
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            border: var(--border);
+            color: var(--primary);
+            font-weight: bold;
+            padding: 12px 25px;
+            text-decoration: none;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            transition: background 0.2s;
         }
 
-        .panel {
-            border: var(--border);
+        .btn-outline:hover {
+            background: rgba(255, 215, 0, 0.05);
+        }
+
+        /* SECTIONS */
+        section {
+            padding: 60px 8%;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .section-title h2 {
+            font-size: 1.8rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+
+        .section-title h2 span {
+            color: var(--primary);
+            text-shadow: var(--glow);
+        }
+
+        .section-title p {
+            color: var(--fg-dim);
+            font-size: 0.85rem;
+        }
+
+        .features-grid, .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .feature-card, .team-card {
             background: var(--panel-bg);
-            display: flex;
-            flex-direction: column;
+            border: var(--border);
+            padding: 30px;
+            position: relative;
+            transition: 0.2s;
+        }
+
+        .feature-card:hover, .team-card:hover {
+            border-color: var(--primary);
             box-shadow: var(--glow);
         }
 
-        .panel-head {
-            background: rgba(255, 255, 255, 0.05);
-            border-bottom: var(--border);
-            color: var(--fg);
-            padding: 10px 15px;
-            font-weight: bold;
+        .feature-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 215, 0, 0.05);
+            border: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3, .team-card h3 {
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .feature-card p, .team-card p {
+            color: var(--fg-dim);
             font-size: 0.85rem;
-            letter-spacing: 2px;
-            display: flex;
-            justify-content: space-between;
+            line-height: 1.5;
         }
 
-        .panel-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
-
-        .widget {
-            border: var(--border);
-            background: rgba(0, 0, 0, 0.4);
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-        .widget-title { font-size: 0.75rem; color: var(--fg-dim); letter-spacing: 1px; }
-        .widget-val { font-size: 1.2rem; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
-        .bar-outer { height: 6px; background: #000; border: var(--border); width: 100%; }
-        .bar-inner { height: 100%; background: var(--fg); width: 0%; box-shadow: var(--glow); transition: width 0.3s; }
-
-        textarea {
-            background: rgba(0, 0, 0, 0.5);
-            border: var(--border);
-            color: var(--fg);
-            width: 100%;
-            height: 75px;
-            padding: 10px;
-            resize: none;
-            outline: none;
-            font-size: 0.95rem;
-        }
-        textarea:focus { border-color: var(--fg); box-shadow: var(--glow); }
-
-        .btn-cyber {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--fg);
-            border: var(--border);
-            padding: 10px;
-            cursor: pointer;
-            font-weight: bold;
-            letter-spacing: 2px;
-            font-size: 0.8rem;
-            transition: 0.2s;
-        }
-        .btn-cyber:hover {
-            background: var(--fg);
-            color: #000;
-            box-shadow: var(--glow-strong);
-        }
-
-        .output-container {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .output-box {
-            word-break: break-all;
-            font-size: 0.85rem;
-            color: var(--fg);
-            min-height: 70px;
-            max-height: 100px;
-            overflow-y: auto;
-            border: var(--border);
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            line-height: 1.4;
-        }
-
-        .btn-copy {
-            background: rgba(255, 255, 255, 0.05);
-            border: var(--border);
-            border-top: none;
-            color: var(--fg);
-            padding: 8px;
+        /* TEAM SPECIFIC */
+        .team-card {
             text-align: center;
             cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            transition: 0.2s;
-        }
-        .btn-copy:hover {
-            background: var(--fg);
-            color: #000;
-            box-shadow: var(--glow);
         }
 
-        .error-text { color: #ff5555 !important; border-color: #ff5555 !important; text-shadow: 0 0 10px rgba(255, 85, 85, 0.6); }
-
-        .radar-box {
-            position: relative;
-            height: 130px;
-            background: rgba(0, 0, 0, 0.6);
+        .team-avatar {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 215, 0, 0.05);
             border: var(--border);
-            overflow: hidden;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 15px auto;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+
+        .team-role {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.05);
+            border: var(--border);
+            color: var(--primary);
+            padding: 4px 10px;
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        /* DISCORD PROFILE MODAL */
+        #profile-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 10001;
             display: flex;
             justify-content: center;
             align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
         }
-        .radar-sweep {
-            position: absolute;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 1px dashed rgba(255, 255, 255, 0.3);
-            animation: spin 4s linear infinite;
-        }
-        @keyframes spin { 100% { transform: rotate(360deg); } }
 
-        .terminal-log-extended {
-            font-size: 0.7rem;
-            color: var(--fg-dim);
-            line-height: 1.4;
-            height: 100%;
-            overflow-y: hidden;
+        #profile-modal.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .discord-profile-card {
+            background: #111214;
+            width: 340px;
+            border: var(--border);
+            box-shadow: var(--glow-strong);
+            position: relative;
+        }
+
+        .discord-banner {
+            height: 100px;
+            background: #22252a;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            color: #fff;
+            border: none;
+            width: 25px;
+            height: 25px;
+            cursor: pointer;
             display: flex;
-            flex-direction: column;
-            gap: 2px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .discord-avatar-container {
+            position: absolute;
+            top: 60px;
+            left: 15px;
+            width: 75px;
+            height: 75px;
+            border-radius: 50%;
+            background: #111214;
+            padding: 3px;
+        }
+
+        .discord-avatar-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 1.5rem;
+            position: relative;
+        }
+
+        .discord-status-dot {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 14px;
+            height: 14px;
+            background: #23a55a;
+            border: 2px solid #111214;
+            border-radius: 50%;
+        }
+
+        .discord-body {
+            padding: 50px 15px 20px 15px;
+        }
+
+        .discord-username {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #f2f3f5;
+            margin-bottom: 2px;
+        }
+
+        .discord-tag {
+            font-size: 0.75rem;
+            color: #949ba4;
+            margin-bottom: 12px;
+        }
+
+        .discord-divider {
+            height: 1px;
+            background: #2b2d31;
+            margin: 10px 0;
+        }
+
+        .discord-section-title {
+            font-size: 0.7rem;
+            color: #b5bac1;
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .discord-roles {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .discord-role-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: #2b2d31;
+            padding: 3px 8px;
+            font-size: 0.7rem;
+            color: #dbdee1;
+        }
+
+        .discord-role-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .discord-about {
+            font-size: 0.75rem;
+            color: #dbdee1;
+            line-height: 1.4;
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 30px 8%;
+            border-top: var(--border);
+            background: var(--panel-bg);
+            color: var(--fg-dim);
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+        }
+
+        footer span {
+            color: var(--primary);
+        }
+
+        /* TOAST NOTIFICATION */
+        #toast {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            background: var(--panel-bg);
+            border: var(--border);
+            color: #fff;
+            padding: 12px 20px;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+            box-shadow: var(--glow);
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        #toast i {
+            color: var(--primary);
+            font-size: 1.1rem;
         }
     </style>
 </head>
 <body>
 
-    <canvas id="matrix-canvas"></canvas>
+    <div class="bg-glow"></div>
 
-    <div id="lock-screen">
-        <div class="auth-card" id="auth-card">
-            <div class="auth-title">
-                <span>GAMBLE // AUTH</span>
-                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD PASS</a>
+    <!-- WELCOME / DISCORD GATE OVERLAY -->
+    <div id="welcome-overlay">
+        <div class="welcome-card">
+            <h1>Willkommen zur<br>Gamble GmbH</h1>
+            <p>Tritt zuerst unserem offiziellen Discord-Server bei, um Zugriff auf den Werbe-Blocker zu erhalten!</p>
+
+            <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord-join" onclick="unlockProceed()">
+                <i class="fa-brands fa-discord"></i> Join Discord
+            </a>
+
+            <button class="btn-proceed" id="proceedBtn" onclick="closeWelcome()">
+                Weiter <i class="fa-solid fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- MAIN WEBSITE -->
+    <div id="main-content">
+        <!-- NAVIGATION -->
+        <nav>
+            <div class="logo">
+                Gamble GmbH <i class="fa-solid fa-crown"></i>
             </div>
-            <div class="boot-seq" id="boot-seq">
-                &gt; INITIALIZING SECURE WHITE_CORE...<br>
-                &gt; LOADING ENCRYPTION MODULES...<br>
-                &gt; ENTER MASTER KEY TO BYPASS PROTOCOL...
+            <ul class="nav-links">
+                <li><a href="#features">Werbe-Blocker</a></li>
+                <li><a href="#team">Team</a></li>
+                <li><a href="https://discord.gg/KEAJwqudQK" target="_blank" class="nav-discord"><i class="fa-brands fa-discord"></i> Discord</a></li>
+            </ul>
+        </nav>
+
+        <!-- HERO SECTION -->
+        <header class="hero">
+            <div class="hero-badge">
+                <i class="fa-solid fa-bolt"></i> Premium Werbe-Blocker
             </div>
-            <div class="pass-container">
-                <div class="pass-row">
-                    <span class="prompt-symbol">KEY://</span>
-                    <input type="password" id="pass-input" maxlength="12" autofocus placeholder="••••••••">
+            <h1>Werbefrei durch die Nacht. <span>Gamble GmbH</span></h1>
+            <p>Das ultimative Skript für Spotify auf Windows. Blockiert alle Werbespots und Banner schnell, sauber und zuverlässig.</p>
+            <div class="hero-buttons">
+                <a href="#" onclick="downloadScript(event)" class="btn-main">
+                    <i class="fa-solid fa-download"></i> Download Spotify.bat
+                </a>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-outline">
+                    <i class="fa-brands fa-discord"></i> Support
+                </a>
+            </div>
+        </header>
+
+        <!-- FEATURES SECTION -->
+        <section id="features">
+            <div class="section-title">
+                <h2>Exklusive <span>Features</span></h2>
+                <p>Maximale Leistung ohne störende Werbung.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fa-solid fa-ban"></i>
+                    </div>
+                    <h3>Werbe- & Banner-Blocker</h3>
+                    <p>Entfernt sämtliche Audio-Werbung, Video-Spots und rechte Seitenbanner komplett aus dem Spotify Client für ein ungestörtes Musik-Erlebnis.</p>
                 </div>
-                <div class="pass-dots" id="pass-dots">
-                    <div class="pass-dot"></div>
-                    <div class="pass-dot"></div>
-                    <div class="pass-dot"></div>
-                    <div class="pass-dot"></div>
-                    <div class="pass-dot"></div>
-                    <div class="pass-dot"></div>
-                    <div class="pass-dot"></div>
+            </div>
+        </section>
+
+        <!-- TEAM SECTION -->
+        <section id="team">
+            <div class="section-title">
+                <h2>Das <span>Management</span></h2>
+                <p>Die Köpfe hinter der Gamble GmbH. Klicke auf ein Profil für Discord-Details.</p>
+            </div>
+
+            <div class="team-grid">
+                <!-- Whizzy Card -->
+                <div class="team-card" onclick="openProfile('whizzy')">
+                    <div class="team-avatar">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <h3>Whizzy</h3>
+                    <span class="team-role">Owner</span>
+                    <p>Hauptgründer & Chefentwickler. Verantwortlich für Kernsysteme und Skripte.</p>
                 </div>
+
+                <!-- Noxyre Card -->
+                <div class="team-card" onclick="openProfile('noxyre')">
+                    <div class="team-avatar">
+                        <i class="fa-solid fa-crown"></i>
+                    </div>
+                    <h3>Noxyre</h3>
+                    <span class="team-role">Owner</span>
+                    <p>Co-Founder & Co-Owner. Verantwortlich für Systemsicherheit und Updates.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
+        <footer>
+            <p>&copy; 2026 <span>Gamble GmbH</span> &bull; Owner: Whizzy &bull; Owner: Noxyre</p>
+        </footer>
+    </div>
+
+    <!-- DISCORD PROFILE MODAL -->
+    <div id="profile-modal" onclick="closeProfileOutside(event)">
+        <div class="discord-profile-card">
+            <div class="discord-banner" id="modal-banner">
+                <button class="close-modal" onclick="closeProfile()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="discord-avatar-container">
+                <div class="discord-avatar-inner" id="modal-avatar">
+                    <i class="fa-solid fa-crown"></i>
+                    <div class="discord-status-dot"></div>
+                </div>
+            </div>
+            <div class="discord-body">
+                <div class="discord-username" id="modal-username">Username</div>
+                <div class="discord-tag" id="modal-tag">tag</div>
+                
+                <div class="discord-divider"></div>
+
+                <div class="discord-section-title">Rollen</div>
+                <div class="discord-roles">
+                    <div class="discord-role-badge">
+                        <div class="discord-role-dot"></div>
+                        <span id="modal-role">Owner</span>
+                    </div>
+                </div>
+
+                <div class="discord-section-title">Über mich</div>
+                <div class="discord-about" id="modal-about">Beschreibung</div>
             </div>
         </div>
     </div>
 
-    <div id="app">
-        <div class="top-bar">
-            <div class="brand">GAMBLE GMBH</div>
-            <div class="top-controls">
-                <div>SYS_TIME: <span id="clock">00:00:00</span></div>
-                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD</a>
-            </div>
-        </div>
-
-        <div class="main-grid">
-            <div class="panel">
-                <div class="panel-head">SYS_TELEMETRY</div>
-                <div class="panel-body">
-                    <div class="widget">
-                        <div class="widget-title">CPU_LOAD</div>
-                        <div class="widget-val" id="cpu-val">0%</div>
-                        <div class="bar-outer"><div class="bar-inner" id="cpu-bar"></div></div>
-                    </div>
-                    <div class="widget">
-                        <div class="widget-title">RAM_USAGE</div>
-                        <div class="widget-val" id="ram-val">0.0 GB</div>
-                        <div class="bar-outer"><div class="bar-inner" id="ram-bar"></div></div>
-                    </div>
-                    <div class="widget">
-                        <div class="widget-title">RADAR_SCAN</div>
-                        <div class="radar-box">
-                            <div class="radar-sweep"></div>
-                            <div style="font-size: 0.75rem; letter-spacing: 2px; color: var(--fg);">ACTIVE_GRID</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 0;">
-                <div class="panel">
-                    <div class="panel-head">
-                        <span>[01] ENCRYPT</span>
-                        <span>AES-256</span>
-                    </div>
-                    <div class="panel-body">
-                        <textarea id="encrypt-input" placeholder="&gt; ENTER PLAINTEXT..."></textarea>
-                        <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT</button>
-                        <div style="font-size: 0.75rem; color: var(--fg-dim);">OUTPUT:</div>
-                        <div class="output-container">
-                            <div class="output-box" id="encrypt-output">_</div>
-                            <button class="btn-copy" onclick="copyToClipboard('encrypt-output', this)">COPY</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-head">
-                        <span>[02] DECRYPT</span>
-                        <span>REVERSE</span>
-                    </div>
-                    <div class="panel-body">
-                        <textarea id="decrypt-input" placeholder="&gt; ENTER CIPHERTEXT..."></textarea>
-                        <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT</button>
-                        <div style="font-size: 0.75rem; color: var(--fg-dim);">OUTPUT:</div>
-                        <div class="output-container">
-                            <div class="output-box" id="decrypt-output">_</div>
-                            <button class="btn-copy" onclick="copyToClipboard('decrypt-output', this)">COPY</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="panel">
-                <div class="panel-head">GLOBAL_FEED</div>
-                <div class="panel-body">
-                    <div class="widget">
-                        <div class="widget-title">FIREWALL</div>
-                        <div style="font-size: 0.9rem; color: var(--fg); text-shadow: var(--glow);">SECURED</div>
-                    </div>
-                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: #000;">
-                        <div class="widget-title" style="margin-bottom: 6px; border-bottom: var(--border); padding-bottom:3px;">PACKET_STREAM</div>
-                        <div id="traffic-stream" class="terminal-log-extended"></div>
-                    </div>
-                </div>
-            </div>
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast">
+        <i class="fa-solid fa-circle-check"></i>
+        <div>
+            <b style="display: block; font-size: 0.8rem;">Download gestartet</b>
+            <span style="font-size: 0.75rem; color: var(--fg-dim);">Spotify.bat wird heruntergeladen...</span>
         </div>
     </div>
 
     <script>
-        // Matrix Rain Effect (in White)
-        const canvas = document.getElementById('matrix-canvas');
-        const ctx = canvas.getContext('2d');
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=";
-        const fontSize = 14;
-        let columns = canvas.width / fontSize;
-        const drops = [];
-        for (let x = 0; x < columns; x++) drops[x] = 1;
-
-        function drawMatrix() {
-            ctx.fillStyle = 'rgba(3, 3, 3, 0.08)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff';
-            ctx.font = fontSize + 'px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const text = letters.charAt(Math.floor(Math.random() * letters.length));
-                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
-                drops[i]++;
+        const profiles = {
+            whizzy: {
+                name: "Whizzy.exe 屮",
+                tag: "big.whizzy1",
+                role: "Owner",
+                about: "Hauptgründer & Chefentwickler der Gamble GmbH. Verantwortlich für Kernsysteme und Skripte."
+            },
+            noxyre: {
+                name: "Noxyre.",
+                tag: "deozi.294",
+                role: "Owner",
+                about: "Co-Founder & Co-Owner der Gamble GmbH. Verantwortlich für Systemsicherheit und Updates."
             }
-        }
-        setInterval(drawMatrix, 33);
-
-        const passInput = document.getElementById('pass-input');
-        passInput.addEventListener('input', () => {
-            const len = passInput.value.length;
-            const dots = document.querySelectorAll('.pass-dot');
-            dots.forEach((dot, idx) => {
-                if (idx < len) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && e.target.id === 'pass-input') verifyPass();
-        });
-
-        const MASTER_PASS = "Gamble";
-        let isUnlocked = false;
-
-        function verifyPass() {
-            if (passInput.value === MASTER_PASS) {
-                isUnlocked = true;
-                document.getElementById('lock-screen').style.display = 'none';
-                document.getElementById('app').classList.add('active');
-            } else {
-                passInput.value = "";
-                passInput.placeholder = "DENIED";
-                document.querySelectorAll('.pass-dot').forEach(d => d.classList.remove('active'));
-                setTimeout(() => { passInput.placeholder = "••••••••"; }, 500);
-            }
-        }
-
-        const MAP_3X = {
-            '0': '7/!', '1': '0§&', '2': '9)?', '3': '4!$',
-            '4': '1(=', '5': '8?(', '6': '3/§', '7': '6&=',
-            '8': '2!/', '9': '5§?', 'a': '0)=', 'b': '4!/',
-            'c': '8&$', 'd': '1?(', 'e': '7/=', 'f': '3§!'
         };
-        const REVERSE_MAP_3X = {};
-        for (let key in MAP_3X) REVERSE_MAP_3X[MAP_3X[key]] = key;
 
-        async function getCryptoKey() {
-            const enc = new TextEncoder();
-            const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
-            return crypto.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 10000, hash: "SHA-256" },
-                keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
-            );
+        function openProfile(key) {
+            const p = profiles[key];
+            if(!p) return;
+
+            document.getElementById('modal-username').innerText = p.name;
+            document.getElementById('modal-tag').innerText = p.tag;
+            document.getElementById('modal-role').innerText = p.role;
+            document.getElementById('modal-about').innerText = p.about;
+
+            document.getElementById('profile-modal').classList.add('show');
         }
 
-        function bufferToHex(buffer) { return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join(''); }
-        function hexToBuffer(hexString) {
-            const bytes = new Uint8Array(Math.ceil(hexString.length / 2));
-            for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hexString.substr(i * 2, 2), 16);
-            return bytes;
+        function closeProfile() {
+            document.getElementById('profile-modal').classList.remove('show');
         }
 
-        async function encryptData(text) {
-            const key = await getCryptoKey();
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            const encoded = new TextEncoder().encode(text);
-            const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded);
-            const combined = new Uint8Array(iv.length + ciphertext.byteLength);
-            combined.set(iv, 0); combined.set(new Uint8Array(ciphertext), iv.length);
-            const hex = bufferToHex(combined);
-            let ultraPayload = "";
-            for (let i = 0; i < hex.length; i++) ultraPayload += MAP_3X[hex[i]] || "";
-            return ultraPayload;
+        function closeProfileOutside(e) {
+            if(e.target.id === 'profile-modal') {
+                closeProfile();
+            }
         }
 
-        async function decryptData(ultraCipher) {
-            try {
-                const cleanInput = ultraCipher.trim();
-                let hex = "";
-                for (let i = 0; i < cleanInput.length; i += 3) {
-                    const token = cleanInput.substr(i, 3);
-                    if (REVERSE_MAP_3X[token]) hex += REVERSE_MAP_3X[token];
-                }
-                if (!hex || hex.length < 24) throw new Error("INVALID");
-                const combined = hexToBuffer(hex);
-                const iv = combined.slice(0, 12);
-                const ciphertext = combined.slice(12);
-                const key = await getCryptoKey();
-                const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ciphertext);
-                return new TextDecoder().decode(decrypted);
-            } catch (e) { return "[ERROR: CORRUPT]"; }
+        function unlockProceed() {
+            const btn = document.getElementById('proceedBtn');
+            btn.classList.add('active');
         }
 
-        function copyToClipboard(elementId, btnElement) {
-            const text = document.getElementById(elementId).innerText;
-            if (!text || text === "_" || text.startsWith("[ERROR")) return;
-            navigator.clipboard.writeText(text).then(() => {
-                const orig = btnElement.innerText;
-                btnElement.innerText = "OK";
-                setTimeout(() => { btnElement.innerText = orig; }, 1000);
-            });
+        function closeWelcome() {
+            document.getElementById('welcome-overlay').style.display = 'none';
+            document.getElementById('main-content').classList.add('visible');
         }
 
-        // Cleane Decoder/Encoder Animations-Funktion
-        function animateTranslating(elementId, finalResult, isError = false) {
-            const el = document.getElementById(elementId);
-            let frame = 0;
-            const maxFrames = 12; // Wie viele Animationsschritte
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=?!";
+        function downloadScript(e) {
+            e.preventDefault();
             
-            const interval = setInterval(() => {
-                if (frame < maxFrames) {
-                    let randomStr = "";
-                    const len = finalResult.length > 0 ? finalResult.length : 20;
-                    for(let i=0; i<len; i++) {
-                        randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
-                    }
-                    el.innerText = randomStr;
-                    frame++;
-                } else {
-                    clearInterval(interval);
-                    el.innerText = finalResult;
-                    if (isError) el.classList.add('error-text');
-                    else el.classList.remove('error-text');
-                }
-            }, 35);
+            const scriptContent = `@echo off
+
+:: Line for changing spotx parameters, each parameter should be separated by a space
+set param=-new_theme -block_update_on
+
+set url='https://raw.githubusercontent.com/SpotX-Official/SpotX/refs/heads/main/run.ps1'
+set url2='https://spotx-official.github.io/SpotX/run.ps1'
+set tls=[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12;
+
+%SYSTEMROOT%\\System32\\WindowsPowerShell\\v1.0\\powershell.exe ^
+-Command %tls% $p='%param%'; """ & { $(try { iwr -useb %url% } catch { $p+= ' -m'; iwr -useb %url2% })} $p """" | iex
+
+pause
+exit /b
+`;
+
+            const blob = new Blob([scriptContent], { type: 'text/plain;charset=utf-8' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'Spotify.bat';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3500);
         }
-
-        async function processEncrypt() {
-            const input = document.getElementById('encrypt-input').value;
-            if (!input.trim()) return;
-            const res = await encryptData(input);
-            animateTranslating('encrypt-output', res, false);
-        }
-
-        async function processDecrypt() {
-            const input = document.getElementById('decrypt-input').value;
-            if (!input.trim()) return;
-            const res = await decryptData(input);
-            const isErr = res.includes("ERROR");
-            animateTranslating('decrypt-output', res, isErr);
-        }
-
-        setInterval(() => {
-            if (!isUnlocked) return;
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString('de-DE');
-            
-            const cpu = Math.floor(Math.random() * 25 + 10);
-            document.getElementById('cpu-val').innerText = cpu + "%";
-            document.getElementById('cpu-bar').style.width = cpu + "%";
-            const ram = (4.2 + Math.random() * 0.4).toFixed(2);
-            document.getElementById('ram-val').innerText = ram + " GB";
-            document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
-
-            const stream = document.getElementById('traffic-stream');
-            const line = document.createElement('div');
-            line.innerText = `0x${Math.floor(Math.random()*999999).toString(16).toUpperCase()} // OK`;
-            stream.prepend(line);
-            if(stream.children.length > 5) stream.removeChild(stream.lastChild);
-        }, 1000);
     </script>
 </body>
 </html>

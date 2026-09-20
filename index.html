@@ -8,14 +8,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         :root {
-            --bg: #050505;
-            --panel-bg: rgba(10, 10, 10, 0.98);
-            --fg: #d4af37;
-            --fg-bright: #ffd700;
-            --fg-dim: #7a6820;
-            --border: 1px solid rgba(212, 175, 55, 0.35);
-            --glow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.08);
-            --glow-alert: 0 0 35px rgba(255, 0, 0, 0.5);
+            --bg: #0a0a0a;
+            --panel-bg: #111111;
+            --fg: #ffcc00;
+            --fg-dim: #665200;
+            --border: 1px solid #443300;
         }
 
         * {
@@ -35,39 +32,6 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
-            position: relative;
-        }
-
-        body::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.45),
-                rgba(0, 0, 0, 0.45) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            z-index: 999;
-            pointer-events: none;
-        }
-
-        body::after {
-            content: "";
-            position: absolute;
-            inset: 0;
-            box-shadow: inset 0 0 300px rgba(0,0,0,0.98);
-            z-index: 998;
-            pointer-events: none;
-        }
-
-        #bg-canvas {
-            position: absolute;
-            inset: 0;
-            z-index: 1;
-            opacity: 0.15;
-            will-change: transform;
         }
 
         #lock-screen {
@@ -79,25 +43,21 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.3s ease;
         }
 
         .auth-card {
             border: var(--border);
-            box-shadow: var(--glow);
             padding: 40px;
-            width: 600px;
+            width: 550px;
             background: var(--panel-bg);
-            position: relative;
-            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
         }
 
         .auth-title {
-            font-size: 1.5rem;
-            letter-spacing: 4px;
+            font-size: 1.4rem;
+            letter-spacing: 3px;
             margin-bottom: 15px;
-            color: var(--fg-bright);
-            border-bottom: 1px dashed var(--fg-dim);
+            color: var(--fg);
+            border-bottom: 1px solid var(--border);
             padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
@@ -107,7 +67,7 @@
         .boot-seq {
             font-size: 0.8rem;
             color: var(--fg-dim);
-            height: 85px;
+            height: 75px;
             overflow: hidden;
             margin-bottom: 20px;
             line-height: 1.5;
@@ -122,21 +82,21 @@
         .pass-row {
             display: flex;
             align-items: center;
-            background: rgba(212, 175, 55, 0.04);
-            border: 1px solid var(--fg-dim);
+            background: #1a1a1a;
+            border: var(--border);
             padding: 12px 18px;
         }
 
-        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg-bright); }
+        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); }
         
-        input[type="password"], input[type="text"] {
+        input[type="password"] {
             background: transparent;
             border: none;
-            color: var(--fg-bright);
-            font-size: 1.3rem;
+            color: var(--fg);
+            font-size: 1.2rem;
             outline: none;
             width: 100%;
-            letter-spacing: 5px;
+            letter-spacing: 4px;
         }
 
         .pass-dots {
@@ -153,29 +113,21 @@
             background: transparent;
         }
         .pass-dot.active {
-            background: var(--fg-bright);
-            border-color: var(--fg-bright);
-            box-shadow: 0 0 10px var(--fg-bright);
+            background: var(--fg);
+            border-color: var(--fg);
         }
 
         #app {
             position: relative;
-            z-index: 10;
             display: flex;
             flex-direction: column;
             height: 100vh;
             padding: 15px;
             gap: 12px;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.995);
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            will-change: opacity, transform;
+            display: none;
         }
         #app.active { 
-            opacity: 1; 
-            visibility: visible;
-            transform: scale(1); 
+            display: flex; 
         }
 
         .top-bar {
@@ -185,35 +137,30 @@
             border: var(--border);
             padding: 12px 25px;
             background: var(--panel-bg);
-            box-shadow: var(--glow);
-            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 20px) 100%, 0 100%, 0 12px);
         }
 
-        .brand { font-size: 1.5rem; letter-spacing: 4px; font-weight: bold; display: flex; align-items: center; gap: 12px; color: var(--fg-bright); }
-        .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.95rem; }
+        .brand { font-size: 1.4rem; letter-spacing: 3px; font-weight: bold; color: var(--fg); }
+        .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
 
         .btn-discord {
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid var(--fg-dim);
+            background: #1a1a1a;
+            border: var(--border);
             color: var(--fg);
-            padding: 6px 14px;
+            padding: 6px 12px;
             cursor: pointer;
             font-size: 0.75rem;
             font-weight: bold;
             text-decoration: none;
-            transition: all 0.2s;
             letter-spacing: 1px;
         }
         .btn-discord:hover {
-            border-color: var(--fg-bright);
-            background: var(--fg-bright);
-            color: var(--bg);
-            box-shadow: 0 0 10px var(--fg-bright);
+            background: var(--fg);
+            color: #000;
         }
 
         .main-grid {
             display: grid;
-            grid-template-columns: 320px 1fr 320px;
+            grid-template-columns: 300px 1fr 300px;
             gap: 12px;
             flex-grow: 1;
             min-height: 0;
@@ -224,17 +171,15 @@
             background: var(--panel-bg);
             display: flex;
             flex-direction: column;
-            box-shadow: var(--glow);
-            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 20px) 100%, 0 100%, 0 12px);
         }
 
         .panel-head {
-            background: rgba(212, 175, 55, 0.08);
+            background: #1a1a1a;
             border-bottom: var(--border);
-            color: var(--fg-bright);
+            color: var(--fg);
             padding: 10px 15px;
             font-weight: bold;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             letter-spacing: 2px;
             display: flex;
             justify-content: space-between;
@@ -243,47 +188,44 @@
         .panel-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
 
         .widget {
-            border: 1px dashed var(--fg-dim);
-            background: rgba(0,0,0,0.5);
+            border: 1px solid var(--border);
+            background: #151515;
             padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
-        .widget-title { font-size: 0.8rem; color: var(--fg-dim); letter-spacing: 1px; }
-        .widget-val { font-size: 1.3rem; font-weight: bold; color: var(--fg-bright); }
-        .bar-outer { height: 6px; background: #000; border: 1px solid var(--fg-dim); width: 100%; }
-        .bar-inner { height: 100%; background: var(--fg); width: 0%; box-shadow: 0 0 8px var(--fg); }
+        .widget-title { font-size: 0.75rem; color: var(--fg-dim); letter-spacing: 1px; }
+        .widget-val { font-size: 1.2rem; font-weight: bold; color: var(--fg); }
+        .bar-outer { height: 6px; background: #000; border: 1px solid var(--border); width: 100%; }
+        .bar-inner { height: 100%; background: var(--fg); width: 0%; }
 
         textarea {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid var(--fg-dim);
-            color: var(--fg-bright);
+            background: #000;
+            border: var(--border);
+            color: var(--fg);
             width: 100%;
-            height: 80px;
+            height: 75px;
             padding: 10px;
             resize: none;
             outline: none;
-            font-size: 1rem;
-            letter-spacing: 1px;
+            font-size: 0.95rem;
         }
-        textarea:focus { border-color: var(--fg-bright); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
+        textarea:focus { border-color: var(--fg); }
 
         .btn-cyber {
-            background: transparent;
+            background: #1a1a1a;
             color: var(--fg);
-            border: 1px solid var(--fg);
+            border: var(--border);
             padding: 10px;
             cursor: pointer;
             font-weight: bold;
-            letter-spacing: 3px;
-            font-size: 0.85rem;
-            transition: background 0.1s, color 0.1s, box-shadow 0.1s;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
         }
         .btn-cyber:hover {
             background: var(--fg);
-            color: var(--bg);
-            box-shadow: 0 0 15px var(--fg);
+            color: #000;
         }
 
         .output-container {
@@ -294,21 +236,20 @@
 
         .output-box {
             word-break: break-all;
-            font-size: 0.9rem;
-            color: var(--fg-bright);
-            min-height: 75px;
-            max-height: 110px;
+            font-size: 0.85rem;
+            color: var(--fg);
+            min-height: 70px;
+            max-height: 100px;
             overflow-y: auto;
-            border: 1px solid var(--fg-dim);
+            border: var(--border);
             padding: 10px;
             background: #000;
             line-height: 1.4;
-            letter-spacing: 1px;
         }
 
         .btn-copy {
-            background: rgba(212, 175, 55, 0.08);
-            border: 1px solid var(--fg);
+            background: #1a1a1a;
+            border: var(--border);
             border-top: none;
             color: var(--fg);
             padding: 8px;
@@ -317,25 +258,13 @@
             font-size: 0.75rem;
             font-weight: bold;
             letter-spacing: 2px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         .btn-copy:hover {
             background: var(--fg);
-            color: var(--bg);
-            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
+            color: #000;
         }
 
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-10px); }
-            40%, 80% { transform: translateX(10px); }
-        }
-        .shake { animation: shake 0.25s ease-in-out; }
-
-        .hidden { display: none !important; }
-        .error-text { color: #ffffff !important; background: #330000 !important; border-color: #ff0000 !important; }
+        .error-text { color: #ff3333 !important; border-color: #ff3333 !important; }
         
         .terminal-log-extended {
             font-size: 0.7rem;
@@ -351,8 +280,6 @@
 </head>
 <body>
 
-    <canvas id="bg-canvas"></canvas>
-
     <div id="lock-screen">
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
@@ -360,9 +287,9 @@
                 <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD PASS</a>
             </div>
             <div class="boot-seq" id="boot-seq">
-                &gt; INITIALIZING SYSTEM MATRIX...<br>
-                &gt; TARGET KEY: gamble REQUIRED...<br>
-                &gt; AWAITING OVERRIDE SEQUENCE...
+                &gt; SYSTEM READY...<br>
+                &gt; TARGET KEY: gamble...<br>
+                &gt; ENTER PASSWORD TO CONTINUE...
             </div>
             <div class="pass-container">
                 <div class="pass-row">
@@ -384,12 +311,9 @@
 
     <div id="app">
         <div class="top-bar">
-            <div class="brand">
-                <span style="display:inline-block; width:14px; height:14px; background:var(--fg-bright); box-shadow:0 0 10px var(--fg-bright);"></span>
-                GAMBLE GMBH
-            </div>
+            <div class="brand">GAMBLE GMBH</div>
             <div class="top-controls">
-                <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00</span></div>
+                <div>SYS_TIME: <span id="clock">00:00:00</span></div>
             </div>
         </div>
 
@@ -398,17 +322,14 @@
                 <div class="panel-head">SYS_TELEMETRY</div>
                 <div class="panel-body">
                     <div class="widget">
-                        <div class="widget-title">NEURAL_CPU_LOAD</div>
+                        <div class="widget-title">CPU_LOAD</div>
                         <div class="widget-val" id="cpu-val">0%</div>
                         <div class="bar-outer"><div class="bar-inner" id="cpu-bar"></div></div>
                     </div>
                     <div class="widget">
-                        <div class="widget-title">QUANTUM_RAM</div>
+                        <div class="widget-title">RAM_USAGE</div>
                         <div class="widget-val" id="ram-val">0.0 GB</div>
                         <div class="bar-outer"><div class="bar-inner" id="ram-bar"></div></div>
-                    </div>
-                    <div class="widget" style="flex-grow: 1; justify-content: center; align-items: center;">
-                        <canvas id="radar-canvas" width="160" height="160"></canvas>
                     </div>
                 </div>
             </div>
@@ -416,32 +337,32 @@
             <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 0;">
                 <div class="panel">
                     <div class="panel-head">
-                        <span>[01] CIPHER_ENCRYPT</span>
-                        <span style="color:var(--fg-dim);">AES-256</span>
+                        <span>[01] ENCRYPT</span>
+                        <span>AES-256</span>
                     </div>
                     <div class="panel-body">
                         <textarea id="encrypt-input" placeholder="&gt; ENTER PLAINTEXT..."></textarea>
-                        <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT ▲</button>
-                        <div style="font-size: 0.75rem; color: var(--fg-dim);">CIPHER_OUTPUT:</div>
+                        <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT</button>
+                        <div style="font-size: 0.75rem; color: var(--fg-dim);">OUTPUT:</div>
                         <div class="output-container">
                             <div class="output-box" id="encrypt-output">_</div>
-                            <button class="btn-copy" onclick="copyToClipboard('encrypt-output', this)">COPY CIPHER</button>
+                            <button class="btn-copy" onclick="copyToClipboard('encrypt-output', this)">COPY</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="panel">
                     <div class="panel-head">
-                        <span>[02] CIPHER_DECRYPT</span>
-                        <span style="color:var(--fg-dim);">REVERSE</span>
+                        <span>[02] DECRYPT</span>
+                        <span>REVERSE</span>
                     </div>
                     <div class="panel-body">
                         <textarea id="decrypt-input" placeholder="&gt; ENTER CIPHERTEXT..."></textarea>
-                        <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT ▼</button>
-                        <div style="font-size: 0.75rem; color: var(--fg-dim);">RECOVERED_PLAINTEXT:</div>
+                        <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT</button>
+                        <div style="font-size: 0.75rem; color: var(--fg-dim);">OUTPUT:</div>
                         <div class="output-container">
                             <div class="output-box" id="decrypt-output">_</div>
-                            <button class="btn-copy" onclick="copyToClipboard('decrypt-output', this)">COPY PLAINTEXT</button>
+                            <button class="btn-copy" onclick="copyToClipboard('decrypt-output', this)">COPY</button>
                         </div>
                     </div>
                 </div>
@@ -451,11 +372,11 @@
                 <div class="panel-head">GLOBAL_FEED</div>
                 <div class="panel-body">
                     <div class="widget">
-                        <div class="widget-title">FIREWALL_STATUS</div>
-                        <div style="font-size: 0.95rem; color: var(--fg-bright); font-weight:bold;">SHIELD_ACTIVE</div>
+                        <div class="widget-title">FIREWALL</div>
+                        <div style="font-size: 0.9rem; color: var(--fg);">ACTIVE</div>
                     </div>
-                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: transparent; border:none; padding:0;">
-                        <div class="widget-title" style="margin-bottom: 8px; border-bottom: 1px solid var(--fg-dim); padding-bottom:4px;">LIVE_PACKET_STREAM</div>
+                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: #000; border:var(--border);">
+                        <div class="widget-title" style="margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom:3px;">PACKET_STREAM</div>
                         <div id="traffic-stream" class="terminal-log-extended"></div>
                     </div>
                 </div>
@@ -482,31 +403,15 @@
         let isUnlocked = false;
 
         function verifyPass() {
-            const input = passInput.value;
-            const card = document.getElementById('auth-card');
-
-            if (input === MASTER_PASS) {
+            if (passInput.value === MASTER_PASS) {
                 isUnlocked = true;
-                passInput.value = "GRANTED";
-                document.getElementById('lock-screen').style.opacity = '0';
-                
-                setTimeout(() => {
-                    document.getElementById('lock-screen').classList.add('hidden');
-                    document.getElementById('app').classList.add('active');
-                }, 300);
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('app').classList.add('active');
             } else {
-                card.classList.add('shake');
                 passInput.value = "";
                 passInput.placeholder = "DENIED";
-                document.getElementById('auth-card').style.borderColor = "#ff0000";
-                document.getElementById('auth-card').style.boxShadow = "var(--glow-alert)";
                 document.querySelectorAll('.pass-dot').forEach(d => d.classList.remove('active'));
-                setTimeout(() => {
-                    card.classList.remove('shake');
-                    document.getElementById('auth-card').style.borderColor = "var(--border)";
-                    document.getElementById('auth-card').style.boxShadow = "var(--glow)";
-                    passInput.placeholder = "••••••••";
-                }, 300);
+                setTimeout(() => { passInput.placeholder = "••••••••"; }, 500);
             }
         }
 
@@ -518,13 +423,12 @@
         };
         const REVERSE_MAP_3X = {};
         for (let key in MAP_3X) REVERSE_MAP_3X[MAP_3X[key]] = key;
-        const ALL_RAND_CHARS = "0123456789§$%&/()=?*+~#-_.:,;<>|\\{}[]^°@€¥£§";
 
         async function getCryptoKey() {
             const enc = new TextEncoder();
             const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
             return crypto.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 50000, hash: "SHA-256" },
+                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 10000, hash: "SHA-256" },
                 keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
             );
         }
@@ -564,135 +468,56 @@
                 const key = await getCryptoKey();
                 const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ciphertext);
                 return new TextDecoder().decode(decrypted);
-            } catch (e) { return "[ERROR: CORRUPT_PAYLOAD]"; }
+            } catch (e) { return "[ERROR: CORRUPT]"; }
         }
 
         function copyToClipboard(elementId, btnElement) {
             const text = document.getElementById(elementId).innerText;
             if (!text || text === "_" || text.startsWith("[ERROR")) return;
             navigator.clipboard.writeText(text).then(() => {
-                const originalHTML = btnElement.innerHTML;
-                btnElement.innerHTML = "COPIED";
-                btnElement.style.background = "#ffd700";
-                btnElement.style.color = "#000";
-                setTimeout(() => {
-                    btnElement.innerHTML = originalHTML;
-                    btnElement.style.background = "";
-                    btnElement.style.color = "";
-                }, 1200);
+                const orig = btnElement.innerText;
+                btnElement.innerText = "OK";
+                setTimeout(() => { btnElement.innerText = orig; }, 1000);
             });
-        }
-
-        function scrambleText(elementId, finalText) {
-            const el = document.getElementById(elementId);
-            let steps = 10, current = 0;
-            const timer = setInterval(() => {
-                current++;
-                if (current >= steps) {
-                    clearInterval(timer);
-                    el.innerText = finalText;
-                    if(finalText.includes("ERROR")) { el.classList.add('error-text'); } 
-                    else { el.classList.remove('error-text'); }
-                } else {
-                    let rnd = "";
-                    for (let i = 0; i < Math.min(finalText.length, 40); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
-                    el.innerText = rnd;
-                }
-            }, 15);
         }
 
         async function processEncrypt() {
             const input = document.getElementById('encrypt-input').value;
             if (!input.trim()) return;
             const res = await encryptData(input);
-            scrambleText('encrypt-output', res);
+            const el = document.getElementById('encrypt-output');
+            el.innerText = res;
+            el.classList.remove('error-text');
         }
 
         async function processDecrypt() {
             const input = document.getElementById('decrypt-input').value;
             if (!input.trim()) return;
             const res = await decryptData(input);
-            scrambleText('decrypt-output', res);
+            const el = document.getElementById('decrypt-output');
+            el.innerText = res;
+            if(res.includes("ERROR")) el.classList.add('error-text');
+            else el.classList.remove('error-text');
         }
 
-        // Ticker auf saubere 1500ms gesetzt für null Lag
+        // Extrem sparsamer Ticker (nur alle 2 Sekunden)
         setInterval(() => {
             if (!isUnlocked) return;
-            const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('de-DE');
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('de-DE');
             
-            const cpu = Math.floor(Math.random() * 20 + 10);
+            const cpu = Math.floor(Math.random() * 10 + 5);
             document.getElementById('cpu-val').innerText = cpu + "%";
             document.getElementById('cpu-bar').style.width = cpu + "%";
-            const ram = (4.1 + Math.random() * 0.2).toFixed(2);
+            const ram = (4.0 + Math.random() * 0.1).toFixed(2);
             document.getElementById('ram-val').innerText = ram + " GB";
             document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
 
             const stream = document.getElementById('traffic-stream');
             const line = document.createElement('div');
-            line.innerText = `0x${Math.floor(Math.random()*99999999).toString(16).toUpperCase()} // PACKET_INJECT`;
+            line.innerText = `0x${Math.floor(Math.random()*999999).toString(16).toUpperCase()} // OK`;
             stream.prepend(line);
-            if(stream.children.length > 5) stream.removeChild(stream.lastChild);
-        }, 1500);
-
-        const rCanvas = document.getElementById('radar-canvas');
-        const rCtx = rCanvas.getContext('2d');
-        let angle = 0;
-        function drawRadar() {
-            if (!isUnlocked) {
-                requestAnimationFrame(drawRadar);
-                return;
-            }
-            rCtx.clearRect(0, 0, 160, 160);
-            rCtx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
-            rCtx.lineWidth = 1;
-            rCtx.beginPath(); 
-            rCtx.arc(80, 80, 70, 0, Math.PI * 2); 
-            rCtx.arc(80, 80, 45, 0, Math.PI * 2); 
-            rCtx.arc(80, 80, 20, 0, Math.PI * 2); 
-            rCtx.stroke();
-            
-            rCtx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
-            rCtx.beginPath();
-            rCtx.moveTo(80, 10); rCtx.lineTo(80, 150);
-            rCtx.moveTo(10, 80); rCtx.lineTo(150, 80);
-            rCtx.stroke();
-
-            rCtx.strokeStyle = '#ffd700';
-            rCtx.lineWidth = 2;
-            rCtx.beginPath(); 
-            rCtx.moveTo(80, 80); 
-            rCtx.lineTo(80 + 70 * Math.cos(angle), 80 + 70 * Math.sin(angle)); 
-            rCtx.stroke();
-
-            angle += 0.04;
-            setTimeout(() => { requestAnimationFrame(drawRadar); }, 50); // Begrenzt auf ~20 FPS für ultraleichtes Rendering ohne CPU-Auslastung
-        }
-        drawRadar();
-
-        const bgCanvas = document.getElementById('bg-canvas');
-        const bgCtx = bgCanvas.getContext('2d');
-        function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
-        resizeBg(); window.addEventListener('resize', resizeBg);
-        const matrixChars = ALL_RAND_CHARS.split('');
-        const drops = Array(Math.floor(window.innerWidth / 25)).fill(1);
-        
-        setInterval(() => {
-            if (isUnlocked) return; // Komplett gestoppt im Hauptmenü, erzeugt null Last
-            
-            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.25)';
-            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-            bgCtx.fillStyle = '#d4af37';
-            bgCtx.font = '12px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                bgCtx.fillText(char, i * 25, drops[i] * 20);
-                if (drops[i] * 20 > bgCanvas.height && Math.random() > 0.92) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }, 100);
+            if(stream.children.length > 4) stream.removeChild(stream.lastChild);
+        }, 2000);
     </script>
 </body>
 </html>

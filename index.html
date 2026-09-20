@@ -66,7 +66,7 @@
             position: absolute;
             inset: 0;
             z-index: 1;
-            opacity: 0.18;
+            opacity: 0.15;
             will-change: transform;
         }
 
@@ -79,44 +79,44 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: opacity 0.4s ease;
+            transition: opacity 0.3s ease;
         }
 
         .auth-card {
             border: var(--border);
             box-shadow: var(--glow);
-            padding: 50px;
-            width: 650px;
+            padding: 40px;
+            width: 600px;
             background: var(--panel-bg);
             position: relative;
-            clip-path: polygon(25px 0, 100% 0, 100% calc(100% - 25px), calc(100% - 25px) 100%, 0 100%, 0 25px);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
         }
 
         .auth-title {
-            font-size: 1.6rem;
-            letter-spacing: 5px;
-            margin-bottom: 20px;
+            font-size: 1.5rem;
+            letter-spacing: 4px;
+            margin-bottom: 15px;
             color: var(--fg-bright);
             border-bottom: 1px dashed var(--fg-dim);
-            padding-bottom: 15px;
+            padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
         }
 
         .boot-seq {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--fg-dim);
-            height: 105px;
+            height: 85px;
             overflow: hidden;
-            margin-bottom: 25px;
-            line-height: 1.6;
+            margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         .pass-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 12px;
         }
 
         .pass-row {
@@ -124,7 +124,7 @@
             align-items: center;
             background: rgba(212, 175, 55, 0.04);
             border: 1px solid var(--fg-dim);
-            padding: 16px 20px;
+            padding: 12px 18px;
         }
 
         .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg-bright); }
@@ -133,29 +133,29 @@
             background: transparent;
             border: none;
             color: var(--fg-bright);
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             outline: none;
             width: 100%;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
         }
 
         .pass-dots {
             display: flex;
-            gap: 12px;
+            gap: 10px;
             justify-content: center;
             margin-top: 5px;
         }
 
         .pass-dot {
-            width: 12px;
-            height: 12px;
+            width: 10px;
+            height: 10px;
             border: 1px solid var(--fg-dim);
             background: transparent;
         }
         .pass-dot.active {
             background: var(--fg-bright);
             border-color: var(--fg-bright);
-            box-shadow: 0 0 12px var(--fg-bright);
+            box-shadow: 0 0 10px var(--fg-bright);
         }
 
         #app {
@@ -164,12 +164,12 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
-            padding: 20px;
-            gap: 15px;
+            padding: 15px;
+            gap: 12px;
             opacity: 0;
             visibility: hidden;
-            transform: scale(0.99);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            transform: scale(0.995);
+            transition: opacity 0.3s ease, transform 0.3s ease;
             will-change: opacity, transform;
         }
         #app.active { 
@@ -183,37 +183,38 @@
             justify-content: space-between;
             align-items: center;
             border: var(--border);
-            padding: 15px 30px;
+            padding: 12px 25px;
             background: var(--panel-bg);
             box-shadow: var(--glow);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 25px) 100%, 0 100%, 0 15px);
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 20px) 100%, 0 100%, 0 12px);
         }
 
-        .brand { font-size: 1.6rem; letter-spacing: 5px; font-weight: bold; display: flex; align-items: center; gap: 15px; color: var(--fg-bright); }
-        .top-controls { display: flex; gap: 25px; align-items: center; font-size: 1rem; }
+        .brand { font-size: 1.5rem; letter-spacing: 4px; font-weight: bold; display: flex; align-items: center; gap: 12px; color: var(--fg-bright); }
+        .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.95rem; }
 
         .btn-discord {
-            background: rgba(212, 175, 55, 0.1);
-            border: 1px solid var(--fg-bright);
-            color: var(--fg-bright);
-            padding: 8px 18px;
+            background: rgba(212, 175, 55, 0.08);
+            border: 1px solid var(--fg-dim);
+            color: var(--fg);
+            padding: 6px 14px;
             cursor: pointer;
-            font-size: 0.9rem;
+            font-size: 0.75rem;
             font-weight: bold;
             text-decoration: none;
             transition: all 0.2s;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
         .btn-discord:hover {
+            border-color: var(--fg-bright);
             background: var(--fg-bright);
             color: var(--bg);
-            box-shadow: 0 0 15px var(--fg-bright);
+            box-shadow: 0 0 10px var(--fg-bright);
         }
 
         .main-grid {
             display: grid;
-            grid-template-columns: 340px 1fr 340px;
-            gap: 15px;
+            grid-template-columns: 320px 1fr 320px;
+            gap: 12px;
             flex-grow: 1;
             min-height: 0;
         }
@@ -224,65 +225,65 @@
             display: flex;
             flex-direction: column;
             box-shadow: var(--glow);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 25px) 100%, 0 100%, 0 15px);
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 20px) 100%, 0 100%, 0 12px);
         }
 
         .panel-head {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.08);
             border-bottom: var(--border);
             color: var(--fg-bright);
-            padding: 12px 20px;
+            padding: 10px 15px;
             font-weight: bold;
-            font-size: 1rem;
-            letter-spacing: 3px;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
             display: flex;
             justify-content: space-between;
         }
 
-        .panel-body { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; gap: 15px; overflow-y: auto; }
+        .panel-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
 
         .widget {
             border: 1px dashed var(--fg-dim);
-            background: rgba(0,0,0,0.6);
-            padding: 14px;
+            background: rgba(0,0,0,0.5);
+            padding: 12px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 6px;
         }
-        .widget-title { font-size: 0.85rem; color: var(--fg-dim); letter-spacing: 2px; }
-        .widget-val { font-size: 1.5rem; font-weight: bold; color: var(--fg-bright); }
-        .bar-outer { height: 8px; background: #000; border: 1px solid var(--fg-dim); width: 100%; }
-        .bar-inner { height: 100%; background: var(--fg); width: 0%; transition: width 0.2s; box-shadow: 0 0 10px var(--fg); }
+        .widget-title { font-size: 0.8rem; color: var(--fg-dim); letter-spacing: 1px; }
+        .widget-val { font-size: 1.3rem; font-weight: bold; color: var(--fg-bright); }
+        .bar-outer { height: 6px; background: #000; border: 1px solid var(--fg-dim); width: 100%; }
+        .bar-inner { height: 100%; background: var(--fg); width: 0%; box-shadow: 0 0 8px var(--fg); }
 
         textarea {
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--fg-dim);
             color: var(--fg-bright);
             width: 100%;
-            height: 95px;
-            padding: 14px;
+            height: 80px;
+            padding: 10px;
             resize: none;
             outline: none;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
-        textarea:focus { border-color: var(--fg-bright); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
+        textarea:focus { border-color: var(--fg-bright); box-shadow: 0 0 15px rgba(212, 175, 55, 0.3); }
 
         .btn-cyber {
             background: transparent;
             color: var(--fg);
             border: 1px solid var(--fg);
-            padding: 14px;
+            padding: 10px;
             cursor: pointer;
             font-weight: bold;
-            letter-spacing: 4px;
-            font-size: 0.95rem;
-            transition: background 0.15s, color 0.15s, box-shadow 0.15s;
+            letter-spacing: 3px;
+            font-size: 0.85rem;
+            transition: background 0.1s, color 0.1s, box-shadow 0.1s;
         }
         .btn-cyber:hover {
             background: var(--fg);
             color: var(--bg);
-            box-shadow: 0 0 25px var(--fg);
+            box-shadow: 0 0 15px var(--fg);
         }
 
         .output-container {
@@ -293,29 +294,29 @@
 
         .output-box {
             word-break: break-all;
-            font-size: 1rem;
+            font-size: 0.9rem;
             color: var(--fg-bright);
-            min-height: 90px;
-            max-height: 130px;
+            min-height: 75px;
+            max-height: 110px;
             overflow-y: auto;
             border: 1px solid var(--fg-dim);
-            padding: 14px;
+            padding: 10px;
             background: #000;
-            line-height: 1.5;
-            letter-spacing: 2px;
+            line-height: 1.4;
+            letter-spacing: 1px;
         }
 
         .btn-copy {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(212, 175, 55, 0.08);
             border: 1px solid var(--fg);
             border-top: none;
             color: var(--fg);
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             cursor: pointer;
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             font-weight: bold;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -323,28 +324,28 @@
         .btn-copy:hover {
             background: var(--fg);
             color: var(--bg);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+            box-shadow: 0 0 15px rgba(212, 175, 55, 0.5);
         }
 
         @keyframes shake {
             0%, 100% { transform: translateX(0); }
-            20%, 60% { transform: translateX(-15px); }
-            40%, 80% { transform: translateX(15px); }
+            20%, 60% { transform: translateX(-10px); }
+            40%, 80% { transform: translateX(10px); }
         }
-        .shake { animation: shake 0.3s ease-in-out; }
+        .shake { animation: shake 0.25s ease-in-out; }
 
         .hidden { display: none !important; }
         .error-text { color: #ffffff !important; background: #330000 !important; border-color: #ff0000 !important; }
         
         .terminal-log-extended {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--fg-dim);
-            line-height: 1.5;
+            line-height: 1.4;
             height: 100%;
             overflow-y: hidden;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
         }
     </style>
 </head>
@@ -356,10 +357,10 @@
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
                 <span>GAMBLE // AUTH</span>
-                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord" style="font-size: 0.8rem; padding: 4px 10px;">Join the Discord for Password</a>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD PASS</a>
             </div>
             <div class="boot-seq" id="boot-seq">
-                &gt; INITIALIZING GAMBLE MATRIX...<br>
+                &gt; INITIALIZING SYSTEM MATRIX...<br>
                 &gt; TARGET KEY: gamble REQUIRED...<br>
                 &gt; AWAITING OVERRIDE SEQUENCE...
             </div>
@@ -384,10 +385,9 @@
     <div id="app">
         <div class="top-bar">
             <div class="brand">
-                <span style="display:inline-block; width:18px; height:18px; background:var(--fg-bright); box-shadow:0 0 15px var(--fg-bright);"></span>
+                <span style="display:inline-block; width:14px; height:14px; background:var(--fg-bright); box-shadow:0 0 10px var(--fg-bright);"></span>
                 GAMBLE GMBH
             </div>
-            <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">Join the Discord for Password</a>
             <div class="top-controls">
                 <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00</span></div>
             </div>
@@ -408,12 +408,12 @@
                         <div class="bar-outer"><div class="bar-inner" id="ram-bar"></div></div>
                     </div>
                     <div class="widget" style="flex-grow: 1; justify-content: center; align-items: center;">
-                        <canvas id="radar-canvas" width="180" height="180"></canvas>
+                        <canvas id="radar-canvas" width="160" height="160"></canvas>
                     </div>
                 </div>
             </div>
 
-            <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 15px; min-height: 0;">
+            <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 0;">
                 <div class="panel">
                     <div class="panel-head">
                         <span>[01] CIPHER_ENCRYPT</span>
@@ -422,7 +422,7 @@
                     <div class="panel-body">
                         <textarea id="encrypt-input" placeholder="&gt; ENTER PLAINTEXT..."></textarea>
                         <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT ▲</button>
-                        <div style="font-size: 0.8rem; color: var(--fg-dim);">CIPHER_OUTPUT:</div>
+                        <div style="font-size: 0.75rem; color: var(--fg-dim);">CIPHER_OUTPUT:</div>
                         <div class="output-container">
                             <div class="output-box" id="encrypt-output">_</div>
                             <button class="btn-copy" onclick="copyToClipboard('encrypt-output', this)">COPY CIPHER</button>
@@ -438,7 +438,7 @@
                     <div class="panel-body">
                         <textarea id="decrypt-input" placeholder="&gt; ENTER CIPHERTEXT..."></textarea>
                         <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT ▼</button>
-                        <div style="font-size: 0.8rem; color: var(--fg-dim);">RECOVERED_PLAINTEXT:</div>
+                        <div style="font-size: 0.75rem; color: var(--fg-dim);">RECOVERED_PLAINTEXT:</div>
                         <div class="output-container">
                             <div class="output-box" id="decrypt-output">_</div>
                             <button class="btn-copy" onclick="copyToClipboard('decrypt-output', this)">COPY PLAINTEXT</button>
@@ -452,10 +452,10 @@
                 <div class="panel-body">
                     <div class="widget">
                         <div class="widget-title">FIREWALL_STATUS</div>
-                        <div style="font-size: 1rem; color: var(--fg-bright); font-weight:bold;">SHIELD_ACTIVE</div>
+                        <div style="font-size: 0.95rem; color: var(--fg-bright); font-weight:bold;">SHIELD_ACTIVE</div>
                     </div>
                     <div class="widget" style="flex-grow: 1; overflow: hidden; background: transparent; border:none; padding:0;">
-                        <div class="widget-title" style="margin-bottom: 10px; border-bottom: 1px solid var(--fg-dim); padding-bottom:5px;">LIVE_PACKET_STREAM</div>
+                        <div class="widget-title" style="margin-bottom: 8px; border-bottom: 1px solid var(--fg-dim); padding-bottom:4px;">LIVE_PACKET_STREAM</div>
                         <div id="traffic-stream" class="terminal-log-extended"></div>
                     </div>
                 </div>
@@ -493,7 +493,7 @@
                 setTimeout(() => {
                     document.getElementById('lock-screen').classList.add('hidden');
                     document.getElementById('app').classList.add('active');
-                }, 400);
+                }, 300);
             } else {
                 card.classList.add('shake');
                 passInput.value = "";
@@ -506,7 +506,7 @@
                     document.getElementById('auth-card').style.borderColor = "var(--border)";
                     document.getElementById('auth-card').style.boxShadow = "var(--glow)";
                     passInput.placeholder = "••••••••";
-                }, 400);
+                }, 300);
             }
         }
 
@@ -524,7 +524,7 @@
             const enc = new TextEncoder();
             const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
             return crypto.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 100000, hash: "SHA-256" },
+                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 50000, hash: "SHA-256" },
                 keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
             );
         }
@@ -579,13 +579,13 @@
                     btnElement.innerHTML = originalHTML;
                     btnElement.style.background = "";
                     btnElement.style.color = "";
-                }, 1500);
+                }, 1200);
             });
         }
 
         function scrambleText(elementId, finalText) {
             const el = document.getElementById(elementId);
-            let steps = 15, current = 0;
+            let steps = 10, current = 0;
             const timer = setInterval(() => {
                 current++;
                 if (current >= steps) {
@@ -595,10 +595,10 @@
                     else { el.classList.remove('error-text'); }
                 } else {
                     let rnd = "";
-                    for (let i = 0; i < Math.min(finalText.length, 60); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
+                    for (let i = 0; i < Math.min(finalText.length, 40); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
                     el.innerText = rnd;
                 }
-            }, 20);
+            }, 15);
         }
 
         async function processEncrypt() {
@@ -615,17 +615,16 @@
             scrambleText('decrypt-output', res);
         }
 
-        // Dashboard-Ticker auf 1000ms gedrosselt, um CPU zu schonen
+        // Ticker auf saubere 1500ms gesetzt für null Lag
         setInterval(() => {
             if (!isUnlocked) return;
             const now = new Date();
-            const timeString = now.toLocaleTimeString('de-DE');
-            document.getElementById('clock').innerText = timeString;
+            document.getElementById('clock').innerText = now.toLocaleTimeString('de-DE');
             
-            const cpu = Math.floor(Math.random() * 30 + 15);
+            const cpu = Math.floor(Math.random() * 20 + 10);
             document.getElementById('cpu-val').innerText = cpu + "%";
             document.getElementById('cpu-bar').style.width = cpu + "%";
-            const ram = (4.2 + Math.random() * 0.5).toFixed(2);
+            const ram = (4.1 + Math.random() * 0.2).toFixed(2);
             document.getElementById('ram-val').innerText = ram + " GB";
             document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
 
@@ -633,8 +632,8 @@
             const line = document.createElement('div');
             line.innerText = `0x${Math.floor(Math.random()*99999999).toString(16).toUpperCase()} // PACKET_INJECT`;
             stream.prepend(line);
-            if(stream.children.length > 6) stream.removeChild(stream.lastChild);
-        }, 1000);
+            if(stream.children.length > 5) stream.removeChild(stream.lastChild);
+        }, 1500);
 
         const rCanvas = document.getElementById('radar-canvas');
         const rCtx = rCanvas.getContext('2d');
@@ -644,30 +643,30 @@
                 requestAnimationFrame(drawRadar);
                 return;
             }
-            rCtx.clearRect(0, 0, 180, 180);
+            rCtx.clearRect(0, 0, 160, 160);
             rCtx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
             rCtx.lineWidth = 1;
             rCtx.beginPath(); 
-            rCtx.arc(90, 90, 80, 0, Math.PI * 2); 
-            rCtx.arc(90, 90, 50, 0, Math.PI * 2); 
-            rCtx.arc(90, 90, 20, 0, Math.PI * 2); 
+            rCtx.arc(80, 80, 70, 0, Math.PI * 2); 
+            rCtx.arc(80, 80, 45, 0, Math.PI * 2); 
+            rCtx.arc(80, 80, 20, 0, Math.PI * 2); 
             rCtx.stroke();
             
             rCtx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
             rCtx.beginPath();
-            rCtx.moveTo(90, 10); rCtx.lineTo(90, 170);
-            rCtx.moveTo(10, 90); rCtx.lineTo(170, 90);
+            rCtx.moveTo(80, 10); rCtx.lineTo(80, 150);
+            rCtx.moveTo(10, 80); rCtx.lineTo(150, 80);
             rCtx.stroke();
 
             rCtx.strokeStyle = '#ffd700';
             rCtx.lineWidth = 2;
             rCtx.beginPath(); 
-            rCtx.moveTo(90, 90); 
-            rCtx.lineTo(90 + 80 * Math.cos(angle), 90 + 80 * Math.sin(angle)); 
+            rCtx.moveTo(80, 80); 
+            rCtx.lineTo(80 + 70 * Math.cos(angle), 80 + 70 * Math.sin(angle)); 
             rCtx.stroke();
 
-            angle += 0.03;
-            requestAnimationFrame(drawRadar);
+            angle += 0.04;
+            setTimeout(() => { requestAnimationFrame(drawRadar); }, 50); // Begrenzt auf ~20 FPS für ultraleichtes Rendering ohne CPU-Auslastung
         }
         drawRadar();
 
@@ -676,25 +675,24 @@
         function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
         resizeBg(); window.addEventListener('resize', resizeBg);
         const matrixChars = ALL_RAND_CHARS.split('');
-        const drops = Array(Math.floor(window.innerWidth / 20)).fill(1);
+        const drops = Array(Math.floor(window.innerWidth / 25)).fill(1);
         
         setInterval(() => {
-            // Pausiert den Matrix-Hintergrund nach dem Login komplett, damit es absolut flüssig bleibt
-            if (isUnlocked) return;
+            if (isUnlocked) return; // Komplett gestoppt im Hauptmenü, erzeugt null Last
             
-            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.2)';
+            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.25)';
             bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
             bgCtx.fillStyle = '#d4af37';
             bgCtx.font = '12px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                bgCtx.fillText(char, i * 20, drops[i] * 20);
-                if (drops[i] * 20 > bgCanvas.height && Math.random() > 0.95) {
+                bgCtx.fillText(char, i * 25, drops[i] * 20);
+                if (drops[i] * 20 > bgCanvas.height && Math.random() > 0.92) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
-        }, 80);
+        }, 100);
     </script>
 </body>
 </html>

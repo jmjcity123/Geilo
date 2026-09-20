@@ -8,11 +8,11 @@
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         :root {
-            --bg: #0a0a0a;
-            --panel-bg: #111111;
-            --fg: #ffcc00;
-            --fg-dim: #665200;
-            --border: 1px solid #443300;
+            --bg: #000000;
+            --panel-bg: #0d0d0d;
+            --fg: #ffffff;
+            --fg-dim: #666666;
+            --border: 1px solid #333333;
         }
 
         * {
@@ -82,7 +82,7 @@
         .pass-row {
             display: flex;
             align-items: center;
-            background: #1a1a1a;
+            background: #121212;
             border: var(--border);
             padding: 12px 18px;
         }
@@ -143,7 +143,7 @@
         .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
 
         .btn-discord {
-            background: #1a1a1a;
+            background: #121212;
             border: var(--border);
             color: var(--fg);
             padding: 6px 12px;
@@ -174,7 +174,7 @@
         }
 
         .panel-head {
-            background: #1a1a1a;
+            background: #121212;
             border-bottom: var(--border);
             color: var(--fg);
             padding: 10px 15px;
@@ -189,7 +189,7 @@
 
         .widget {
             border: 1px solid var(--border);
-            background: #151515;
+            background: #080808;
             padding: 12px;
             display: flex;
             flex-direction: column;
@@ -214,7 +214,7 @@
         textarea:focus { border-color: var(--fg); }
 
         .btn-cyber {
-            background: #1a1a1a;
+            background: #121212;
             color: var(--fg);
             border: var(--border);
             padding: 10px;
@@ -248,7 +248,7 @@
         }
 
         .btn-copy {
-            background: #1a1a1a;
+            background: #121212;
             border: var(--border);
             border-top: none;
             color: var(--fg);
@@ -264,7 +264,7 @@
             color: #000;
         }
 
-        .error-text { color: #ff3333 !important; border-color: #ff3333 !important; }
+        .error-text { color: #aaaaaa !important; border-color: #aaaaaa !important; }
         
         .terminal-log-extended {
             font-size: 0.7rem;
@@ -500,7 +500,6 @@
             else el.classList.remove('error-text');
         }
 
-        // Extrem sparsamer Ticker (nur alle 2 Sekunden)
         setInterval(() => {
             if (!isUnlocked) return;
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('de-DE');

@@ -163,6 +163,24 @@
             box-shadow: var(--glow);
         }
 
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-crown {
+            font-size: 1.3rem;
+            color: var(--fg);
+            text-shadow: var(--glow-strong);
+            animation: pulse-crown 2s infinite alternate;
+        }
+
+        @keyframes pulse-crown {
+            0% { text-shadow: 0 0 5px rgba(255, 204, 0, 0.4); transform: scale(1); }
+            100% { text-shadow: 0 0 15px rgba(255, 204, 0, 0.9); transform: scale(1.08); }
+        }
+
         .brand { font-size: 1.4rem; letter-spacing: 3px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
         .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
 
@@ -364,7 +382,10 @@
 
     <div id="app">
         <div class="top-bar">
-            <div class="brand">GAMBLE GMBH</div>
+            <div class="brand-container">
+                <div class="brand-crown">👑</div>
+                <div class="brand">GAMBLE GMBH</div>
+            </div>
             <div class="top-controls">
                 <div>SYS_TIME: <span id="clock">00:00:00</span></div>
                 <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD</a>

@@ -84,7 +84,7 @@
         .auth-title {
             font-size: 1.6rem;
             letter-spacing: 5px;
-            margin-bottom: 20px;
+            margin-bottom: 25px; /* Etwas mehr Abstand nach unten */
             color: var(--fg-bright);
             border-bottom: 1px dashed var(--fg-dim);
             padding-bottom: 15px;
@@ -93,35 +93,32 @@
             align-items: center;
         }
 
-        /* Der neue, große, zentrierte Button */
-        .gamble-main-btn {
+        /* Der neue, kleinere, oben-zentrierte Button */
+        .gamble-gmbh-btn {
             background: transparent;
-            border: 2px solid var(--fg-bright);
+            border: 1px solid var(--fg-bright);
             color: var(--fg-bright);
-            padding: 30px 60px;
-            font-size: 2rem;
+            padding: 12px 24px; /* Kleiner und kompakter */
+            font-size: 1.1rem; /* Normale Schriftgröße */
             cursor: pointer;
             text-decoration: none;
-            letter-spacing: 5px;
+            letter-spacing: 3px;
             transition: all 0.3s ease;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            text-shadow: 0 0 10px var(--fg-bright);
-            box-shadow: 0 0 30px rgba(226, 185, 109, 0.3);
+            text-shadow: 0 0 5px var(--fg-bright);
+            box-shadow: 0 0 15px rgba(226, 185, 109, 0.2);
             
-            /* Positionierung */
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 2000; /* Über allem anderen */
+            /* Positionierung: Innerhalb der Card, oben mittig */
+            margin: 0 auto 20px auto; /* Zentriert, mit Abstand nach unten */
+            width: fit-content; /* Nur so breit wie der Text */
         }
-        .gamble-main-btn:hover {
+        .gamble-gmbh-btn:hover {
             background: var(--fg-bright);
             color: var(--bg);
-            box-shadow: 0 0 50px rgba(226, 185, 109, 0.5);
+            box-shadow: 0 0 25px rgba(226, 185, 109, 0.4);
         }
 
         .boot-seq {
@@ -131,6 +128,7 @@
             overflow: hidden;
             margin-bottom: 25px;
             line-height: 1.6;
+            pointer-events: none; /* Verhindert, dass der Text im Weg ist */
         }
 
         .pass-container {
@@ -365,17 +363,18 @@
 
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Der neue, große, zentrierte Button, der als Link fungiert -->
-    <a href="https://www.gamble-gmbh.de/geheimsprache-uebersetzer" target="_blank" class="gamble-main-btn">
-        GAMBLE GMBH
-    </a>
-
     <!-- Der "Lock-Screen" (Passwort-Eingabe) -->
     <div id="lock-screen">
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
                 <span>GAMBLE // AUTH</span>
             </div>
+            
+            <!-- Der neue, kleinere, oben-zentrierte Button, der als Link fungiert -->
+            <a href="https://www.gamble-gmbh.de/geheimsprache-uebersetzer" target="_blank" class="gamble-gmbh-btn">
+                GAMBLE GMBH
+            </a>
+
             <div class="boot-seq" id="boot-seq">
                 &gt; INITIALIZING GAMBLE MATRIX...<br>
                 &gt; TARGET KEY: gamble REQUIRED...<br>
@@ -409,4 +408,4 @@
             </div>
             <div class="top-controls">
                 <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00:000</span></div>
-                <button class="btn-toggle" id="sound-btn" onclick="toggleSFX()">
+                <

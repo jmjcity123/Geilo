@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAMBLE_CORE</title>
+    <title>GAMBLE_CORE // WHITE_EDITION</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         :root {
-            --bg: #000000;
-            --panel-bg: #0d0d0d;
+            --bg: #030303;
+            --panel-bg: rgba(10, 10, 10, 0.85);
             --fg: #ffffff;
-            --fg-dim: #666666;
-            --border: 1px solid #333333;
+            --fg-dim: #777777;
+            --border: 1px solid rgba(255, 255, 255, 0.2);
+            --glow: 0 0 10px rgba(255, 255, 255, 0.4);
+            --glow-strong: 0 0 20px rgba(255, 255, 255, 0.7);
         }
 
         * {
@@ -34,10 +36,22 @@
             flex-direction: column;
         }
 
+        #matrix-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
         #lock-screen {
             position: fixed;
             inset: 0;
-            background: #000;
+            background: rgba(3, 3, 3, 0.95);
+            backdrop-filter: blur(8px);
             z-index: 1000;
             display: flex;
             flex-direction: column;
@@ -50,6 +64,9 @@
             padding: 40px;
             width: 550px;
             background: var(--panel-bg);
+            box-shadow: var(--glow-strong);
+            position: relative;
+            clip-path: polygon(0 0, 95% 0, 100% 10%, 100% 100%, 5% 100%, 0 90%);
         }
 
         .auth-title {
@@ -57,7 +74,8 @@
             letter-spacing: 3px;
             margin-bottom: 15px;
             color: var(--fg);
-            border-bottom: 1px solid var(--border);
+            text-shadow: var(--glow);
+            border-bottom: var(--border);
             padding-bottom: 12px;
             display: flex;
             justify-content: space-between;
@@ -82,12 +100,13 @@
         .pass-row {
             display: flex;
             align-items: center;
-            background: #121212;
+            background: rgba(255, 255, 255, 0.03);
             border: var(--border);
             padding: 12px 18px;
+            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
         }
 
-        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); }
+        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
         
         input[type="password"] {
             background: transparent;
@@ -111,14 +130,18 @@
             height: 10px;
             border: 1px solid var(--fg-dim);
             background: transparent;
+            transform: rotate(45deg);
+            transition: 0.2s;
         }
         .pass-dot.active {
             background: var(--fg);
             border-color: var(--fg);
+            box-shadow: var(--glow);
         }
 
         #app {
             position: relative;
+            z-index: 2;
             display: flex;
             flex-direction: column;
             height: 100vh;
@@ -137,13 +160,14 @@
             border: var(--border);
             padding: 12px 25px;
             background: var(--panel-bg);
+            box-shadow: var(--glow);
         }
 
-        .brand { font-size: 1.4rem; letter-spacing: 3px; font-weight: bold; color: var(--fg); }
+        .brand { font-size: 1.4rem; letter-spacing: 3px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
         .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
 
         .btn-discord {
-            background: #121212;
+            background: rgba(255, 255, 255, 0.05);
             border: var(--border);
             color: var(--fg);
             padding: 6px 12px;
@@ -152,10 +176,12 @@
             font-weight: bold;
             text-decoration: none;
             letter-spacing: 1px;
+            transition: 0.2s;
         }
         .btn-discord:hover {
             background: var(--fg);
             color: #000;
+            box-shadow: var(--glow-strong);
         }
 
         .main-grid {
@@ -171,10 +197,11 @@
             background: var(--panel-bg);
             display: flex;
             flex-direction: column;
+            box-shadow: var(--glow);
         }
 
         .panel-head {
-            background: #121212;
+            background: rgba(255, 255, 255, 0.05);
             border-bottom: var(--border);
             color: var(--fg);
             padding: 10px 15px;
@@ -188,20 +215,20 @@
         .panel-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
 
         .widget {
-            border: 1px solid var(--border);
-            background: #080808;
+            border: var(--border);
+            background: rgba(0, 0, 0, 0.4);
             padding: 12px;
             display: flex;
             flex-direction: column;
             gap: 6px;
         }
         .widget-title { font-size: 0.75rem; color: var(--fg-dim); letter-spacing: 1px; }
-        .widget-val { font-size: 1.2rem; font-weight: bold; color: var(--fg); }
-        .bar-outer { height: 6px; background: #000; border: 1px solid var(--border); width: 100%; }
-        .bar-inner { height: 100%; background: var(--fg); width: 0%; }
+        .widget-val { font-size: 1.2rem; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
+        .bar-outer { height: 6px; background: #000; border: var(--border); width: 100%; }
+        .bar-inner { height: 100%; background: var(--fg); width: 0%; box-shadow: var(--glow); transition: width 0.3s; }
 
         textarea {
-            background: #000;
+            background: rgba(0, 0, 0, 0.5);
             border: var(--border);
             color: var(--fg);
             width: 100%;
@@ -211,10 +238,10 @@
             outline: none;
             font-size: 0.95rem;
         }
-        textarea:focus { border-color: var(--fg); }
+        textarea:focus { border-color: var(--fg); box-shadow: var(--glow); }
 
         .btn-cyber {
-            background: #121212;
+            background: rgba(255, 255, 255, 0.05);
             color: var(--fg);
             border: var(--border);
             padding: 10px;
@@ -222,10 +249,12 @@
             font-weight: bold;
             letter-spacing: 2px;
             font-size: 0.8rem;
+            transition: 0.2s;
         }
         .btn-cyber:hover {
             background: var(--fg);
             color: #000;
+            box-shadow: var(--glow-strong);
         }
 
         .output-container {
@@ -243,12 +272,12 @@
             overflow-y: auto;
             border: var(--border);
             padding: 10px;
-            background: #000;
+            background: rgba(0, 0, 0, 0.6);
             line-height: 1.4;
         }
 
         .btn-copy {
-            background: #121212;
+            background: rgba(255, 255, 255, 0.05);
             border: var(--border);
             border-top: none;
             color: var(--fg);
@@ -258,14 +287,36 @@
             font-size: 0.75rem;
             font-weight: bold;
             letter-spacing: 2px;
+            transition: 0.2s;
         }
         .btn-copy:hover {
             background: var(--fg);
             color: #000;
+            box-shadow: var(--glow);
         }
 
-        .error-text { color: #aaaaaa !important; border-color: #aaaaaa !important; }
-        
+        .error-text { color: #ff5555 !important; border-color: #ff5555 !important; text-shadow: 0 0 10px rgba(255, 85, 85, 0.6); }
+
+        .radar-box {
+            position: relative;
+            height: 130px;
+            background: rgba(0, 0, 0, 0.6);
+            border: var(--border);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .radar-sweep {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
         .terminal-log-extended {
             font-size: 0.7rem;
             color: var(--fg-dim);
@@ -280,6 +331,8 @@
 </head>
 <body>
 
+    <canvas id="matrix-canvas"></canvas>
+
     <div id="lock-screen">
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
@@ -287,9 +340,9 @@
                 <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD PASS</a>
             </div>
             <div class="boot-seq" id="boot-seq">
-                &gt; SYSTEM READY...<br>
-                &gt; TARGET KEY: gamble...<br>
-                &gt; ENTER PASSWORD TO CONTINUE...
+                &gt; INITIALIZING SECURE WHITE_CORE...<br>
+                &gt; LOADING ENCRYPTION MODULES...<br>
+                &gt; ENTER MASTER KEY TO BYPASS PROTOCOL...
             </div>
             <div class="pass-container">
                 <div class="pass-row">
@@ -314,6 +367,7 @@
             <div class="brand">GAMBLE GMBH</div>
             <div class="top-controls">
                 <div>SYS_TIME: <span id="clock">00:00:00</span></div>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD</a>
             </div>
         </div>
 
@@ -330,6 +384,13 @@
                         <div class="widget-title">RAM_USAGE</div>
                         <div class="widget-val" id="ram-val">0.0 GB</div>
                         <div class="bar-outer"><div class="bar-inner" id="ram-bar"></div></div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-title">RADAR_SCAN</div>
+                        <div class="radar-box">
+                            <div class="radar-sweep"></div>
+                            <div style="font-size: 0.75rem; letter-spacing: 2px; color: var(--fg);">ACTIVE_GRID</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -373,10 +434,10 @@
                 <div class="panel-body">
                     <div class="widget">
                         <div class="widget-title">FIREWALL</div>
-                        <div style="font-size: 0.9rem; color: var(--fg);">ACTIVE</div>
+                        <div style="font-size: 0.9rem; color: var(--fg); text-shadow: var(--glow);">SECURED</div>
                     </div>
-                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: #000; border:var(--border);">
-                        <div class="widget-title" style="margin-bottom: 6px; border-bottom: 1px solid var(--border); padding-bottom:3px;">PACKET_STREAM</div>
+                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: #000;">
+                        <div class="widget-title" style="margin-bottom: 6px; border-bottom: var(--border); padding-bottom:3px;">PACKET_STREAM</div>
                         <div id="traffic-stream" class="terminal-log-extended"></div>
                     </div>
                 </div>
@@ -385,6 +446,36 @@
     </div>
 
     <script>
+        // Matrix Rain Effect (in White)
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=";
+        const fontSize = 14;
+        let columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(3, 3, 3, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
         const passInput = document.getElementById('pass-input');
         passInput.addEventListener('input', () => {
             const len = passInput.value.length;
@@ -504,10 +595,10 @@
             if (!isUnlocked) return;
             document.getElementById('clock').innerText = new Date().toLocaleTimeString('de-DE');
             
-            const cpu = Math.floor(Math.random() * 10 + 5);
+            const cpu = Math.floor(Math.random() * 25 + 10);
             document.getElementById('cpu-val').innerText = cpu + "%";
             document.getElementById('cpu-bar').style.width = cpu + "%";
-            const ram = (4.0 + Math.random() * 0.1).toFixed(2);
+            const ram = (4.2 + Math.random() * 0.4).toFixed(2);
             document.getElementById('ram-val').innerText = ram + " GB";
             document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
 
@@ -515,8 +606,8 @@
             const line = document.createElement('div');
             line.innerText = `0x${Math.floor(Math.random()*999999).toString(16).toUpperCase()} // OK`;
             stream.prepend(line);
-            if(stream.children.length > 4) stream.removeChild(stream.lastChild);
-        }, 2000);
+            if(stream.children.length > 5) stream.removeChild(stream.lastChild);
+        }, 1000);
     </script>
 </body>
 </html>

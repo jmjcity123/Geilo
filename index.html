@@ -10,9 +10,9 @@
         :root {
             --bg: #050505;
             --panel-bg: rgba(10, 10, 10, 0.98);
-            --fg: #d4af37; /* Edles Gold */
-            --fg-bright: #ffd700; /* Helles Gold für Highlights */
-            --fg-dim: #7a6820; /* Gedimmtes Gold */
+            --fg: #d4af37;
+            --fg-bright: #ffd700;
+            --fg-dim: #7a6820;
             --border: 1px solid rgba(212, 175, 55, 0.35);
             --glow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.08);
             --glow-alert: 0 0 35px rgba(255, 0, 0, 0.5);
@@ -67,6 +67,7 @@
             inset: 0;
             z-index: 1;
             opacity: 0.18;
+            will-change: transform;
         }
 
         #lock-screen {
@@ -78,7 +79,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            transition: all 0.5s cubic-bezier(0.8, 0, 0.2, 1);
+            transition: opacity 0.4s ease;
         }
 
         .auth-card {
@@ -100,6 +101,7 @@
             padding-bottom: 15px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .boot-seq {
@@ -123,12 +125,6 @@
             background: rgba(212, 175, 55, 0.04);
             border: 1px solid var(--fg-dim);
             padding: 16px 20px;
-            transition: all 0.3s;
-        }
-
-        .pass-row:focus-within {
-            border-color: var(--fg-bright);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
         .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg-bright); }
@@ -155,7 +151,6 @@
             height: 12px;
             border: 1px solid var(--fg-dim);
             background: transparent;
-            transition: all 0.2s;
         }
         .pass-dot.active {
             background: var(--fg-bright);
@@ -172,10 +167,16 @@
             padding: 20px;
             gap: 15px;
             opacity: 0;
-            transform: scale(0.98) translateY(15px);
-            transition: all 0.6s cubic-bezier(0.1, 0.9, 0.2, 1);
+            visibility: hidden;
+            transform: scale(0.99);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            will-change: opacity, transform;
         }
-        #app.active { opacity: 1; transform: scale(1) translateY(0); }
+        #app.active { 
+            opacity: 1; 
+            visibility: visible;
+            transform: scale(1); 
+        }
 
         .top-bar {
             display: flex;
@@ -185,23 +186,29 @@
             padding: 15px 30px;
             background: var(--panel-bg);
             box-shadow: var(--glow);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 25px) 100%, 0 100%, 0 15px);
         }
 
         .brand { font-size: 1.6rem; letter-spacing: 5px; font-weight: bold; display: flex; align-items: center; gap: 15px; color: var(--fg-bright); }
         .top-controls { display: flex; gap: 25px; align-items: center; font-size: 1rem; }
 
-        .btn-toggle {
-            background: transparent;
-            border: 1px solid var(--fg);
-            color: var(--fg);
+        .btn-discord {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid var(--fg-bright);
+            color: var(--fg-bright);
             padding: 8px 18px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: bold;
+            text-decoration: none;
             transition: all 0.2s;
+            letter-spacing: 2px;
         }
-        .btn-toggle:hover { background: var(--fg); color: var(--bg); box-shadow: 0 0 15px var(--fg); }
+        .btn-discord:hover {
+            background: var(--fg-bright);
+            color: var(--bg);
+            box-shadow: 0 0 15px var(--fg-bright);
+        }
 
         .main-grid {
             display: grid;
@@ -217,7 +224,7 @@
             display: flex;
             flex-direction: column;
             box-shadow: var(--glow);
-            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 25px) 100%, 0 100%, 0 15px);
         }
 
         .panel-head {
@@ -245,7 +252,7 @@
         .widget-title { font-size: 0.85rem; color: var(--fg-dim); letter-spacing: 2px; }
         .widget-val { font-size: 1.5rem; font-weight: bold; color: var(--fg-bright); }
         .bar-outer { height: 8px; background: #000; border: 1px solid var(--fg-dim); width: 100%; }
-        .bar-inner { height: 100%; background: var(--fg); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px var(--fg); }
+        .bar-inner { height: 100%; background: var(--fg); width: 0%; transition: width 0.2s; box-shadow: 0 0 10px var(--fg); }
 
         textarea {
             background: rgba(0, 0, 0, 0.8);
@@ -257,7 +264,6 @@
             resize: none;
             outline: none;
             font-size: 1.1rem;
-            transition: all 0.2s;
             letter-spacing: 2px;
         }
         textarea:focus { border-color: var(--fg-bright); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
@@ -271,14 +277,13 @@
             font-weight: bold;
             letter-spacing: 4px;
             font-size: 0.95rem;
-            transition: all 0.15s;
+            transition: background 0.15s, color 0.15s, box-shadow 0.15s;
         }
         .btn-cyber:hover {
             background: var(--fg);
             color: var(--bg);
             box-shadow: 0 0 25px var(--fg);
         }
-        .btn-cyber:active { transform: scale(0.98); }
 
         .output-container {
             position: relative;
@@ -311,23 +316,14 @@
             font-size: 0.85rem;
             font-weight: bold;
             letter-spacing: 3px;
-            transition: all 0.2s cubic-bezier(0.1, 0.9, 0.2, 1);
             display: flex;
             justify-content: center;
             align-items: center;
-            position: relative;
-            overflow: hidden;
         }
-
         .btn-copy:hover {
             background: var(--fg);
             color: var(--bg);
             box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
-            letter-spacing: 5px;
-        }
-        
-        .btn-copy:active {
-            transform: scale(0.98);
         }
 
         @keyframes shake {
@@ -338,7 +334,7 @@
         .shake { animation: shake 0.3s ease-in-out; }
 
         .hidden { display: none !important; }
-        .error-text { color: #ffffff !important; background: #330000 !important; border-color: #ff0000 !important; text-shadow: 0 0 10px #ff0000; }
+        .error-text { color: #ffffff !important; background: #330000 !important; border-color: #ff0000 !important; }
         
         .terminal-log-extended {
             font-size: 0.75rem;
@@ -360,7 +356,7 @@
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
                 <span>GAMBLE // AUTH</span>
-                <span style="font-size: 0.9rem; color: var(--fg-dim);" id="lock-status">SEC_MAX</span>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord" style="font-size: 0.8rem; padding: 4px 10px;">Join the Discord for Password</a>
             </div>
             <div class="boot-seq" id="boot-seq">
                 &gt; INITIALIZING GAMBLE MATRIX...<br>
@@ -386,20 +382,18 @@
     </div>
 
     <div id="app">
-        
         <div class="top-bar">
             <div class="brand">
                 <span style="display:inline-block; width:18px; height:18px; background:var(--fg-bright); box-shadow:0 0 15px var(--fg-bright);"></span>
                 GAMBLE GMBH
             </div>
+            <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">Join the Discord for Password</a>
             <div class="top-controls">
-                <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00:000</span></div>
-                <button class="btn-toggle" id="sound-btn" onclick="toggleSFX()">SFX: ON</button>
+                <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00</span></div>
             </div>
         </div>
 
         <div class="main-grid">
-            
             <div class="panel">
                 <div class="panel-head">SYS_TELEMETRY</div>
                 <div class="panel-body">
@@ -420,7 +414,6 @@
             </div>
 
             <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 15px; min-height: 0;">
-                
                 <div class="panel">
                     <div class="panel-head">
                         <span>[01] CIPHER_ENCRYPT</span>
@@ -452,7 +445,6 @@
                         </div>
                     </div>
                 </div>
-
             </div>
 
             <div class="panel">
@@ -468,71 +460,12 @@
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <script>
-        let soundEnabled = true;
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        let audioCtx;
-
-        function initAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
-
-        function playSound(freq, type, duration, gainVal) {
-            if (!soundEnabled) return;
-            initAudio();
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch(e) {}
-        }
-
-        function sndClick() { playSound(1400, 'square', 0.03, 0.15); } 
-        function sndHover() { playSound(2200, 'sine', 0.02, 0.05); }   
-        function sndBeep()  { playSound(1000, 'triangle', 0.04, 0.12); } 
-        function sndError() { playSound(120, 'sawtooth', 0.3, 0.3); }   
-        function sndSuccess() {
-            playSound(523, 'square', 0.1, 0.15);
-            setTimeout(() => playSound(659, 'square', 0.1, 0.15), 80);
-            setTimeout(() => playSound(783, 'square', 0.1, 0.15), 160);
-            setTimeout(() => playSound(1046, 'square', 0.25, 0.2), 240);
-        }
-
-        function toggleSFX() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('sound-btn').innerText = soundEnabled ? "SFX: ON" : "SFX: OFF";
-            if (soundEnabled) sndHover();
-        }
-
-        function copyToClipboard(elementId, btnElement) {
-            const text = document.getElementById(elementId).innerText;
-            if (!text || text === "_" || text.startsWith("[ERROR")) return;
-            navigator.clipboard.writeText(text).then(() => {
-                sndSuccess();
-                const originalHTML = btnElement.innerHTML;
-                btnElement.innerHTML = "COPIED";
-                btnElement.style.background = "#ffd700";
-                btnElement.style.color = "#000";
-                setTimeout(() => {
-                    btnElement.innerHTML = originalHTML;
-                    btnElement.style.background = "";
-                    btnElement.style.color = "";
-                }, 1500);
-            });
-        }
-
         const passInput = document.getElementById('pass-input');
         passInput.addEventListener('input', () => {
-            sndClick();
             const len = passInput.value.length;
             const dots = document.querySelectorAll('.pass-dot');
             dots.forEach((dot, idx) => {
@@ -542,37 +475,26 @@
         });
 
         document.addEventListener('keydown', (e) => {
-            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
-                if (e.key !== 'Enter') sndClick();
-            }
             if (e.key === 'Enter' && e.target.id === 'pass-input') verifyPass();
         });
 
-        document.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('mouseenter', sndHover);
-            btn.addEventListener('mousedown', sndClick);
-        });
-
         const MASTER_PASS = "Gamble";
+        let isUnlocked = false;
+
         function verifyPass() {
             const input = passInput.value;
             const card = document.getElementById('auth-card');
 
             if (input === MASTER_PASS) {
-                sndSuccess();
+                isUnlocked = true;
                 passInput.value = "GRANTED";
-                document.getElementById('lock-status').style.color = "#ffd700";
-                document.getElementById('lock-status').innerText = "GRANTED";
+                document.getElementById('lock-screen').style.opacity = '0';
                 
                 setTimeout(() => {
-                    document.getElementById('lock-screen').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('lock-screen').classList.add('hidden');
-                        document.getElementById('app').classList.add('active');
-                    }, 500);
-                }, 500);
+                    document.getElementById('lock-screen').classList.add('hidden');
+                    document.getElementById('app').classList.add('active');
+                }, 400);
             } else {
-                sndError();
                 card.classList.add('shake');
                 passInput.value = "";
                 passInput.placeholder = "DENIED";
@@ -584,7 +506,7 @@
                     document.getElementById('auth-card').style.borderColor = "var(--border)";
                     document.getElementById('auth-card').style.boxShadow = "var(--glow)";
                     passInput.placeholder = "••••••••";
-                }, 500);
+                }, 400);
             }
         }
 
@@ -645,23 +567,38 @@
             } catch (e) { return "[ERROR: CORRUPT_PAYLOAD]"; }
         }
 
+        function copyToClipboard(elementId, btnElement) {
+            const text = document.getElementById(elementId).innerText;
+            if (!text || text === "_" || text.startsWith("[ERROR")) return;
+            navigator.clipboard.writeText(text).then(() => {
+                const originalHTML = btnElement.innerHTML;
+                btnElement.innerHTML = "COPIED";
+                btnElement.style.background = "#ffd700";
+                btnElement.style.color = "#000";
+                setTimeout(() => {
+                    btnElement.innerHTML = originalHTML;
+                    btnElement.style.background = "";
+                    btnElement.style.color = "";
+                }, 1500);
+            });
+        }
+
         function scrambleText(elementId, finalText) {
             const el = document.getElementById(elementId);
-            let steps = 30, current = 0;
+            let steps = 15, current = 0;
             const timer = setInterval(() => {
                 current++;
                 if (current >= steps) {
                     clearInterval(timer);
                     el.innerText = finalText;
-                    if(finalText.includes("ERROR")) { sndError(); el.classList.add('error-text'); } 
-                    else { sndSuccess(); el.classList.remove('error-text'); }
+                    if(finalText.includes("ERROR")) { el.classList.add('error-text'); } 
+                    else { el.classList.remove('error-text'); }
                 } else {
-                    sndBeep();
                     let rnd = "";
-                    for (let i = 0; i < Math.min(finalText.length, 120); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
+                    for (let i = 0; i < Math.min(finalText.length, 60); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
                     el.innerText = rnd;
                 }
-            }, 25);
+            }, 20);
         }
 
         async function processEncrypt() {
@@ -678,15 +615,17 @@
             scrambleText('decrypt-output', res);
         }
 
+        // Dashboard-Ticker auf 1000ms gedrosselt, um CPU zu schonen
         setInterval(() => {
+            if (!isUnlocked) return;
             const now = new Date();
-            const timeString = now.toLocaleTimeString('de-DE') + ":" + String(now.getMilliseconds()).padStart(3, '0');
+            const timeString = now.toLocaleTimeString('de-DE');
             document.getElementById('clock').innerText = timeString;
             
-            const cpu = Math.floor(Math.random() * 45 + 20);
+            const cpu = Math.floor(Math.random() * 30 + 15);
             document.getElementById('cpu-val').innerText = cpu + "%";
             document.getElementById('cpu-bar').style.width = cpu + "%";
-            const ram = (4.2 + Math.random() * 2.1).toFixed(2);
+            const ram = (4.2 + Math.random() * 0.5).toFixed(2);
             document.getElementById('ram-val').innerText = ram + " GB";
             document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
 
@@ -694,13 +633,17 @@
             const line = document.createElement('div');
             line.innerText = `0x${Math.floor(Math.random()*99999999).toString(16).toUpperCase()} // PACKET_INJECT`;
             stream.prepend(line);
-            if(stream.children.length > 9) stream.removeChild(stream.lastChild);
-        }, 500);
+            if(stream.children.length > 6) stream.removeChild(stream.lastChild);
+        }, 1000);
 
         const rCanvas = document.getElementById('radar-canvas');
         const rCtx = rCanvas.getContext('2d');
         let angle = 0;
         function drawRadar() {
+            if (!isUnlocked) {
+                requestAnimationFrame(drawRadar);
+                return;
+            }
             rCtx.clearRect(0, 0, 180, 180);
             rCtx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
             rCtx.lineWidth = 1;
@@ -723,7 +666,7 @@
             rCtx.lineTo(90 + 80 * Math.cos(angle), 90 + 80 * Math.sin(angle)); 
             rCtx.stroke();
 
-            angle += 0.04;
+            angle += 0.03;
             requestAnimationFrame(drawRadar);
         }
         drawRadar();
@@ -733,21 +676,25 @@
         function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
         resizeBg(); window.addEventListener('resize', resizeBg);
         const matrixChars = ALL_RAND_CHARS.split('');
-        const drops = Array(Math.floor(window.innerWidth / 14)).fill(1);
+        const drops = Array(Math.floor(window.innerWidth / 20)).fill(1);
+        
         setInterval(() => {
-            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.12)';
+            // Pausiert den Matrix-Hintergrund nach dem Login komplett, damit es absolut flüssig bleibt
+            if (isUnlocked) return;
+            
+            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.2)';
             bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
             bgCtx.fillStyle = '#d4af37';
             bgCtx.font = '12px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                bgCtx.fillText(char, i * 14, drops[i] * 14);
-                if (drops[i] * 14 > bgCanvas.height && Math.random() > 0.975) {
+                bgCtx.fillText(char, i * 20, drops[i] * 20);
+                if (drops[i] * 20 > bgCanvas.height && Math.random() > 0.95) {
                     drops[i] = 0;
                 }
                 drops[i]++;
             }
-        }, 50);
+        }, 80);
     </script>
 </body>
 </html>

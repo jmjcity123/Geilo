@@ -93,23 +93,35 @@
             align-items: center;
         }
 
-        .discord-btn-top {
+        /* Der neue, große, zentrierte Button */
+        .gamble-main-btn {
             background: transparent;
-            border: 1px solid var(--fg);
-            color: var(--fg);
-            padding: 5px 12px;
-            font-size: 0.8rem;
+            border: 2px solid var(--fg-bright);
+            color: var(--fg-bright);
+            padding: 30px 60px;
+            font-size: 2rem;
             cursor: pointer;
             text-decoration: none;
-            letter-spacing: 2px;
-            transition: background 0.2s, color 0.2s;
-            display: inline-flex;
+            letter-spacing: 5px;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
             align-items: center;
-            gap: 5px;
+            font-weight: bold;
+            text-shadow: 0 0 10px var(--fg-bright);
+            box-shadow: 0 0 30px rgba(226, 185, 109, 0.3);
+            
+            /* Positionierung */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000; /* Über allem anderen */
         }
-        .discord-btn-top:hover {
-            background: var(--fg);
+        .gamble-main-btn:hover {
+            background: var(--fg-bright);
             color: var(--bg);
+            box-shadow: 0 0 50px rgba(226, 185, 109, 0.5);
         }
 
         .boot-seq {
@@ -353,11 +365,16 @@
 
     <canvas id="bg-canvas"></canvas>
 
+    <!-- Der neue, große, zentrierte Button, der als Link fungiert -->
+    <a href="https://www.gamble-gmbh.de/geheimsprache-uebersetzer" target="_blank" class="gamble-main-btn">
+        GAMBLE GMBH
+    </a>
+
+    <!-- Der "Lock-Screen" (Passwort-Eingabe) -->
     <div id="lock-screen">
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
                 <span>GAMBLE // AUTH</span>
-                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="discord-btn-top">DISCORD</a>
             </div>
             <div class="boot-seq" id="boot-seq">
                 &gt; INITIALIZING GAMBLE MATRIX...<br>
@@ -382,375 +399,14 @@
         </div>
     </div>
 
+    <!-- Das Haupt-Panel (wird nach Login sichtbar) -->
     <div id="app">
         
         <div class="top-bar">
             <div class="brand">
                 <span style="display:inline-block; width:14px; height:14px; background:var(--fg-bright);"></span>
-                GAMBLE GMBH
+                GAMBLE CORE
             </div>
             <div class="top-controls">
                 <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00:000</span></div>
-                <button class="btn-toggle" id="sound-btn" onclick="toggleSFX()">SFX: ON</button>
-            </div>
-        </div>
-
-        <div class="main-grid">
-            
-            <div class="panel">
-                <div class="panel-head">SYS_TELEMETRY</div>
-                <div class="panel-body">
-                    <div class="widget">
-                        <div class="widget-title">NEURAL_CPU_LOAD</div>
-                        <div class="widget-val" id="cpu-val">0%</div>
-                        <div class="bar-outer"><div class="bar-inner" id="cpu-bar"></div></div>
-                    </div>
-                    <div class="widget">
-                        <div class="widget-title">QUANTUM_RAM</div>
-                        <div class="widget-val" id="ram-val">0.0 GB</div>
-                        <div class="bar-outer"><div class="bar-inner" id="ram-bar"></div></div>
-                    </div>
-                    <div class="widget" style="flex-grow: 1; justify-content: center; align-items: center;">
-                        <canvas id="radar-canvas" width="180" height="180"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 15px; min-height: 0;">
-                
-                <div class="panel">
-                    <div class="panel-head">
-                        <span>[01] CIPHER_ENCRYPT</span>
-                        <span style="color:var(--fg-dim);">AES-256</span>
-                    </div>
-                    <div class="panel-body">
-                        <textarea id="encrypt-input" placeholder="&gt; ENTER PLAINTEXT..."></textarea>
-                        <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT ▲</button>
-                        <div style="font-size: 0.8rem; color: var(--fg-dim);">CIPHER_OUTPUT:</div>
-                        <div class="output-container">
-                            <div class="output-box" id="encrypt-output">_</div>
-                            <button class="btn-copy" onclick="copyToClipboard('encrypt-output', this)">COPY CIPHER</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="panel">
-                    <div class="panel-head">
-                        <span>[02] CIPHER_DECRYPT</span>
-                        <span style="color:var(--fg-dim);">REVERSE</span>
-                    </div>
-                    <div class="panel-body">
-                        <textarea id="decrypt-input" placeholder="&gt; ENTER CIPHERTEXT..."></textarea>
-                        <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT ▼</button>
-                        <div style="font-size: 0.8rem; color: var(--fg-dim);">RECOVERED_PLAINTEXT:</div>
-                        <div class="output-container">
-                            <div class="output-box" id="decrypt-output">_</div>
-                            <button class="btn-copy" onclick="copyToClipboard('decrypt-output', this)">COPY PLAINTEXT</button>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="panel">
-                <div class="panel-head">GLOBAL_FEED</div>
-                <div class="panel-body">
-                    <div class="widget">
-                        <div class="widget-title">FIREWALL_STATUS</div>
-                        <div style="font-size: 1rem; color: var(--fg-bright); font-weight:bold;">SHIELD_ACTIVE</div>
-                    </div>
-                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: transparent; border:none; padding:0;">
-                        <div class="widget-title" style="margin-bottom: 10px; border-bottom: 1px solid var(--fg-dim); padding-bottom:5px;">LIVE_PACKET_STREAM</div>
-                        <div id="traffic-stream" class="terminal-log-extended"></div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <script>
-        let soundEnabled = true;
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        let audioCtx;
-
-        function initAudio() { if (!audioCtx) audioCtx = new AudioCtx(); }
-
-        function playSound(freq, type, duration, gainVal) {
-            if (!soundEnabled) return;
-            initAudio();
-            try {
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                osc.type = type;
-                osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-                gain.gain.setValueAtTime(gainVal, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duration);
-            } catch(e) {}
-        }
-
-        function sndHover() { playSound(2200, 'sine', 0.02, 0.03); }   
-        function sndBeep()  { playSound(1000, 'triangle', 0.04, 0.08); } 
-        function sndError() { playSound(120, 'sawtooth', 0.2, 0.2); }   
-        function sndSuccess() {
-            playSound(523, 'square', 0.08, 0.1);
-            setTimeout(() => playSound(659, 'square', 0.08, 0.1), 60);
-            setTimeout(() => playSound(783, 'square', 0.08, 0.1), 120);
-            setTimeout(() => playSound(1046, 'square', 0.15, 0.12), 180);
-        }
-
-        function toggleSFX() {
-            soundEnabled = !soundEnabled;
-            document.getElementById('sound-btn').innerText = soundEnabled ? "SFX: ON" : "SFX: OFF";
-            if (soundEnabled) sndHover();
-        }
-
-        function copyToClipboard(elementId, btnElement) {
-            const text = document.getElementById(elementId).innerText;
-            if (!text || text === "_" || text.startsWith("[ERROR")) return;
-            navigator.clipboard.writeText(text).then(() => {
-                sndSuccess();
-                const originalHTML = btnElement.innerHTML;
-                btnElement.innerHTML = "COPIED";
-                btnElement.style.background = "#e2b96d";
-                btnElement.style.color = "#030303";
-                setTimeout(() => {
-                    btnElement.innerHTML = originalHTML;
-                    btnElement.style.background = "";
-                    btnElement.style.color = "";
-                }, 1200);
-            });
-        }
-
-        const passInput = document.getElementById('pass-input');
-        passInput.addEventListener('input', () => {
-            // Tipp-Sound komplett entfernt
-            const len = passInput.value.length;
-            const dots = document.querySelectorAll('.pass-dot');
-            dots.forEach((dot, idx) => {
-                if (idx < len) dot.classList.add('active');
-                else dot.classList.remove('active');
-            });
-        });
-
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' && e.target.id === 'pass-input') verifyPass();
-        });
-
-        document.querySelectorAll('button').forEach(btn => {
-            btn.addEventListener('mouseenter', sndHover);
-        });
-
-        const MASTER_PASS = "Gamble";
-        function verifyPass() {
-            const input = passInput.value;
-            const card = document.getElementById('auth-card');
-
-            if (input === MASTER_PASS) {
-                sndSuccess();
-                passInput.value = "GRANTED";
-                document.getElementById('lock-status').style.color = "#e2b96d";
-                document.getElementById('lock-status').innerText = "GRANTED";
-                
-                setTimeout(() => {
-                    document.getElementById('lock-screen').style.opacity = '0';
-                    setTimeout(() => {
-                        document.getElementById('lock-screen').classList.add('hidden');
-                        document.getElementById('app').classList.add('active');
-                    }, 400);
-                }, 400);
-            } else {
-                sndError();
-                card.classList.add('shake');
-                passInput.value = "";
-                passInput.placeholder = "DENIED";
-                card.style.borderColor = "#ff4d4d";
-                card.style.boxShadow = "var(--glow-alert)";
-                document.querySelectorAll('.pass-dot').forEach(d => d.classList.remove('active'));
-                setTimeout(() => {
-                    card.classList.remove('shake');
-                    card.style.borderColor = "var(--border)";
-                    card.style.boxShadow = "var(--glow)";
-                    passInput.placeholder = "••••••••";
-                }, 400);
-            }
-        }
-
-        const MAP_3X = {
-            '0': '7/!', '1': '0§&', '2': '9)?', '3': '4!$',
-            '4': '1(=', '5': '8?(', '6': '3/§', '7': '6&=',
-            '8': '2!/', '9': '5§?', 'a': '0)=', 'b': '4!/',
-            'c': '8&$', 'd': '1?(', 'e': '7/=', 'f': '3§!'
-        };
-        const REVERSE_MAP_3X = {};
-        for (let key in MAP_3X) REVERSE_MAP_3X[MAP_3X[key]] = key;
-        const ALL_RAND_CHARS = "0123456789§$%&/()=?*+~#-_.:,;<>|\\{}[]^°@€¥£§";
-
-        async function getCryptoKey() {
-            const enc = new TextEncoder();
-            const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
-            return crypto.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 50000, hash: "SHA-256" },
-                keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
-            );
-        }
-
-        function bufferToHex(buffer) { return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join(''); }
-        function hexToBuffer(hexString) {
-            const bytes = new Uint8Array(Math.ceil(hexString.length / 2));
-            for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hexString.substr(i * 2, 2), 16);
-            return bytes;
-        }
-
-        async function encryptData(text) {
-            const key = await getCryptoKey();
-            const iv = crypto.getRandomValues(new Uint8Array(12));
-            const encoded = new TextEncoder().encode(text);
-            const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded);
-            const combined = new Uint8Array(iv.length + ciphertext.byteLength);
-            combined.set(iv, 0); combined.set(new Uint8Array(ciphertext), iv.length);
-            const hex = bufferToHex(combined);
-            let ultraPayload = "";
-            for (let i = 0; i < hex.length; i++) ultraPayload += MAP_3X[hex[i]] || "";
-            return ultraPayload;
-        }
-
-        async function decryptData(ultraCipher) {
-            try {
-                const cleanInput = ultraCipher.trim();
-                let hex = "";
-                for (let i = 0; i < cleanInput.length; i += 3) {
-                    const token = cleanInput.substr(i, 3);
-                    if (REVERSE_MAP_3X[token]) hex += REVERSE_MAP_3X[token];
-                }
-                if (!hex || hex.length < 24) throw new Error("INVALID");
-                const combined = hexToBuffer(hex);
-                const iv = combined.slice(0, 12);
-                const ciphertext = combined.slice(12);
-                const key = await getCryptoKey();
-                const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ciphertext);
-                return new TextDecoder().decode(decrypted);
-            } catch (e) { return "[ERROR: CORRUPT_PAYLOAD]"; }
-        }
-
-        function scrambleText(elementId, finalText) {
-            const el = document.getElementById(elementId);
-            let steps = 15, current = 0;
-            const timer = setInterval(() => {
-                current++;
-                if (current >= steps) {
-                    clearInterval(timer);
-                    el.innerText = finalText;
-                    if(finalText.includes("ERROR")) { sndError(); el.classList.add('error-text'); } 
-                    else { sndSuccess(); el.classList.remove('error-text'); }
-                } else {
-                    sndBeep();
-                    let rnd = "";
-                    for (let i = 0; i < Math.min(finalText.length, 60); i++) rnd += ALL_RAND_CHARS[Math.floor(Math.random() * ALL_RAND_CHARS.length)];
-                    el.innerText = rnd;
-                }
-            }, 20);
-        }
-
-        async function processEncrypt() {
-            const input = document.getElementById('encrypt-input').value;
-            if (!input.trim()) return;
-            const res = await encryptData(input);
-            scrambleText('encrypt-output', res);
-        }
-
-        async function processDecrypt() {
-            const input = document.getElementById('decrypt-input').value;
-            if (!input.trim()) return;
-            const res = await decryptData(input);
-            scrambleText('decrypt-output', res);
-        }
-
-        let lastUpdate = 0;
-        function updateSystemState(timestamp) {
-            if (timestamp - lastUpdate > 500) {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString('de-DE') + ":" + String(now.getMilliseconds()).padStart(3, '0');
-                document.getElementById('clock').innerText = timeString;
-                
-                const cpu = Math.floor(Math.random() * 35 + 15);
-                document.getElementById('cpu-val').innerText = cpu + "%";
-                document.getElementById('cpu-bar').style.width = cpu + "%";
-                const ram = (4.2 + Math.random() * 1.5).toFixed(2);
-                document.getElementById('ram-val').innerText = ram + " GB";
-                document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
-
-                const stream = document.getElementById('traffic-stream');
-                const line = document.createElement('div');
-                line.innerText = `0x${Math.floor(Math.random()*99999999).toString(16).toUpperCase()} // PACKET_INJECT`;
-                stream.prepend(line);
-                if(stream.children.length > 8) stream.removeChild(stream.lastChild);
-                
-                lastUpdate = timestamp;
-            }
-            requestAnimationFrame(updateSystemState);
-        }
-        requestAnimationFrame(updateSystemState);
-
-        const rCanvas = document.getElementById('radar-canvas');
-        const rCtx = rCanvas.getContext('2d');
-        let angle = 0;
-        function drawRadar() {
-            rCtx.clearRect(0, 0, 180, 180);
-            rCtx.strokeStyle = 'rgba(197, 160, 89, 0.2)';
-            rCtx.lineWidth = 1;
-            rCtx.beginPath(); 
-            rCtx.arc(90, 90, 80, 0, Math.PI * 2); 
-            rCtx.arc(90, 90, 50, 0, Math.PI * 2); 
-            rCtx.arc(90, 90, 20, 0, Math.PI * 2); 
-            rCtx.stroke();
-            
-            rCtx.strokeStyle = 'rgba(197, 160, 89, 0.1)';
-            rCtx.beginPath();
-            rCtx.moveTo(90, 10); rCtx.lineTo(90, 170);
-            rCtx.moveTo(10, 90); rCtx.lineTo(170, 90);
-            rCtx.stroke();
-
-            rCtx.strokeStyle = '#e2b96d';
-            rCtx.lineWidth = 1.5;
-            rCtx.beginPath(); 
-            rCtx.moveTo(90, 90); 
-            rCtx.lineTo(90 + 80 * Math.cos(angle), 90 + 80 * Math.sin(angle)); 
-            rCtx.stroke();
-
-            angle += 0.03;
-            requestAnimationFrame(drawRadar);
-        }
-        drawRadar();
-
-        const bgCanvas = document.getElementById('bg-canvas');
-        const bgCtx = bgCanvas.getContext('2d');
-        function resizeBg() { bgCanvas.width = window.innerWidth; bgCanvas.height = window.innerHeight; }
-        resizeBg(); window.addEventListener('resize', resizeBg);
-        
-        const matrixChars = ALL_RAND_CHARS.split('');
-        const drops = Array(Math.floor(window.innerWidth / 16)).fill(1);
-        
-        function drawMatrix() {
-            bgCtx.fillStyle = 'rgba(3, 3, 3, 0.15)';
-            bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-            bgCtx.fillStyle = '#c5a059';
-            bgCtx.font = '12px monospace';
-            for (let i = 0; i < drops.length; i++) {
-                const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                bgCtx.fillText(char, i * 16, drops[i] * 16);
-                if (drops[i] * 16 > bgCanvas.height && Math.random() > 0.98) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-            setTimeout(() => requestAnimationFrame(drawMatrix), 40);
-        }
-        requestAnimationFrame(drawMatrix);
-    </script>
-</body>
-</html>
+                <button class="btn-toggle" id="sound-btn" onclick="toggleSFX()">

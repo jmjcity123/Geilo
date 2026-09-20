@@ -572,23 +572,44 @@
             });
         }
 
+        // Cleane Decoder/Encoder Animations-Funktion
+        function animateTranslating(elementId, finalResult, isError = false) {
+            const el = document.getElementById(elementId);
+            let frame = 0;
+            const maxFrames = 12; // Wie viele Animationsschritte
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=?!";
+            
+            const interval = setInterval(() => {
+                if (frame < maxFrames) {
+                    let randomStr = "";
+                    const len = finalResult.length > 0 ? finalResult.length : 20;
+                    for(let i=0; i<len; i++) {
+                        randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    el.innerText = randomStr;
+                    frame++;
+                } else {
+                    clearInterval(interval);
+                    el.innerText = finalResult;
+                    if (isError) el.classList.add('error-text');
+                    else el.classList.remove('error-text');
+                }
+            }, 35);
+        }
+
         async function processEncrypt() {
             const input = document.getElementById('encrypt-input').value;
             if (!input.trim()) return;
             const res = await encryptData(input);
-            const el = document.getElementById('encrypt-output');
-            el.innerText = res;
-            el.classList.remove('error-text');
+            animateTranslating('encrypt-output', res, false);
         }
 
         async function processDecrypt() {
             const input = document.getElementById('decrypt-input').value;
             if (!input.trim()) return;
             const res = await decryptData(input);
-            const el = document.getElementById('decrypt-output');
-            el.innerText = res;
-            if(res.includes("ERROR")) el.classList.add('error-text');
-            else el.classList.remove('error-text');
+            const isErr = res.includes("ERROR");
+            animateTranslating('decrypt-output', res, isErr);
         }
 
         setInterval(() => {

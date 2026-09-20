@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MONOCHROME_CORE</title>
+    <title>GAMBLE_CORE</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         :root {
-            --bg: #000000;
-            --panel-bg: rgba(6, 6, 6, 0.98);
-            --fg: #ffffff;
-            --fg-dim: #888888;
-            --border: 1px solid rgba(255, 255, 255, 0.35);
-            --glow: 0 0 30px rgba(255, 255, 255, 0.2), inset 0 0 20px rgba(255, 255, 255, 0.08);
-            --glow-alert: 0 0 35px rgba(255, 255, 255, 0.5);
+            --bg: #050505;
+            --panel-bg: rgba(10, 10, 10, 0.98);
+            --fg: #d4af37; /* Edles Gold */
+            --fg-bright: #ffd700; /* Helles Gold für Highlights */
+            --fg-dim: #7a6820; /* Gedimmtes Gold */
+            --border: 1px solid rgba(212, 175, 55, 0.35);
+            --glow: 0 0 30px rgba(212, 175, 55, 0.2), inset 0 0 20px rgba(212, 175, 55, 0.08);
+            --glow-alert: 0 0 35px rgba(255, 0, 0, 0.5);
         }
 
         * {
@@ -94,7 +95,7 @@
             font-size: 1.6rem;
             letter-spacing: 5px;
             margin-bottom: 20px;
-            color: var(--fg);
+            color: var(--fg-bright);
             border-bottom: 1px dashed var(--fg-dim);
             padding-bottom: 15px;
             display: flex;
@@ -119,23 +120,23 @@
         .pass-row {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.04);
+            background: rgba(212, 175, 55, 0.04);
             border: 1px solid var(--fg-dim);
             padding: 16px 20px;
             transition: all 0.3s;
         }
 
         .pass-row:focus-within {
-            border-color: var(--fg);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            border-color: var(--fg-bright);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
         }
 
-        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); }
+        .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg-bright); }
         
         input[type="password"], input[type="text"] {
             background: transparent;
             border: none;
-            color: var(--fg);
+            color: var(--fg-bright);
             font-size: 1.4rem;
             outline: none;
             width: 100%;
@@ -157,9 +158,9 @@
             transition: all 0.2s;
         }
         .pass-dot.active {
-            background: var(--fg);
-            border-color: var(--fg);
-            box-shadow: 0 0 12px var(--fg);
+            background: var(--fg-bright);
+            border-color: var(--fg-bright);
+            box-shadow: 0 0 12px var(--fg-bright);
         }
 
         #app {
@@ -187,7 +188,7 @@
             clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
         }
 
-        .brand { font-size: 1.6rem; letter-spacing: 5px; font-weight: bold; display: flex; align-items: center; gap: 15px; color: var(--fg); }
+        .brand { font-size: 1.6rem; letter-spacing: 5px; font-weight: bold; display: flex; align-items: center; gap: 15px; color: var(--fg-bright); }
         .top-controls { display: flex; gap: 25px; align-items: center; font-size: 1rem; }
 
         .btn-toggle {
@@ -220,9 +221,9 @@
         }
 
         .panel-head {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(212, 175, 55, 0.1);
             border-bottom: var(--border);
-            color: var(--fg);
+            color: var(--fg-bright);
             padding: 12px 20px;
             font-weight: bold;
             font-size: 1rem;
@@ -242,14 +243,14 @@
             gap: 8px;
         }
         .widget-title { font-size: 0.85rem; color: var(--fg-dim); letter-spacing: 2px; }
-        .widget-val { font-size: 1.5rem; font-weight: bold; color: var(--fg); }
+        .widget-val { font-size: 1.5rem; font-weight: bold; color: var(--fg-bright); }
         .bar-outer { height: 8px; background: #000; border: 1px solid var(--fg-dim); width: 100%; }
         .bar-inner { height: 100%; background: var(--fg); width: 0%; transition: width 0.3s; box-shadow: 0 0 10px var(--fg); }
 
         textarea {
             background: rgba(0, 0, 0, 0.8);
             border: 1px solid var(--fg-dim);
-            color: var(--fg);
+            color: var(--fg-bright);
             width: 100%;
             height: 95px;
             padding: 14px;
@@ -259,7 +260,7 @@
             transition: all 0.2s;
             letter-spacing: 2px;
         }
-        textarea:focus { border-color: var(--fg); box-shadow: 0 0 20px rgba(255, 255, 255, 0.4); }
+        textarea:focus { border-color: var(--fg-bright); box-shadow: 0 0 20px rgba(212, 175, 55, 0.4); }
 
         .btn-cyber {
             background: transparent;
@@ -288,7 +289,7 @@
         .output-box {
             word-break: break-all;
             font-size: 1rem;
-            color: var(--fg);
+            color: var(--fg-bright);
             min-height: 90px;
             max-height: 130px;
             overflow-y: auto;
@@ -300,7 +301,7 @@
         }
 
         .btn-copy {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(212, 175, 55, 0.1);
             border: 1px solid var(--fg);
             border-top: none;
             color: var(--fg);
@@ -321,7 +322,7 @@
         .btn-copy:hover {
             background: var(--fg);
             color: var(--bg);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
             letter-spacing: 5px;
         }
         
@@ -358,13 +359,13 @@
     <div id="lock-screen">
         <div class="auth-card" id="auth-card">
             <div class="auth-title">
-                <span>MONOCHROME // AUTH</span>
+                <span>GAMBLE // AUTH</span>
                 <span style="font-size: 0.9rem; color: var(--fg-dim);" id="lock-status">SEC_MAX</span>
             </div>
             <div class="boot-seq" id="boot-seq">
-                > INITIALIZING MATRIX...<br>
-                > TARGET KEY: moderian REQUIRED...<br>
-                > AWAITING OVERRIDE SEQUENCE...
+                &gt; INITIALIZING GAMBLE MATRIX...<br>
+                &gt; TARGET KEY: gamble REQUIRED...<br>
+                &gt; AWAITING OVERRIDE SEQUENCE...
             </div>
             <div class="pass-container">
                 <div class="pass-row">
@@ -388,11 +389,11 @@
         
         <div class="top-bar">
             <div class="brand">
-                <span style="display:inline-block; width:18px; height:18px; background:#fff; box-shadow:0 0 15px #fff;"></span>
-                MONOCHROME_CORE
+                <span style="display:inline-block; width:18px; height:18px; background:var(--fg-bright); box-shadow:0 0 15px var(--fg-bright);"></span>
+                GAMBLE GMBH
             </div>
             <div class="top-controls">
-                <div>SYS_TIME: <span id="clock" style="color:var(--fg); font-weight: bold;">00:00:00:000</span></div>
+                <div>SYS_TIME: <span id="clock" style="color:var(--fg-bright); font-weight: bold;">00:00:00:000</span></div>
                 <button class="btn-toggle" id="sound-btn" onclick="toggleSFX()">SFX: ON</button>
             </div>
         </div>
@@ -426,7 +427,7 @@
                         <span style="color:var(--fg-dim);">AES-256</span>
                     </div>
                     <div class="panel-body">
-                        <textarea id="encrypt-input" placeholder="> ENTER PLAINTEXT..."></textarea>
+                        <textarea id="encrypt-input" placeholder="&gt; ENTER PLAINTEXT..."></textarea>
                         <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT ▲</button>
                         <div style="font-size: 0.8rem; color: var(--fg-dim);">CIPHER_OUTPUT:</div>
                         <div class="output-container">
@@ -442,7 +443,7 @@
                         <span style="color:var(--fg-dim);">REVERSE</span>
                     </div>
                     <div class="panel-body">
-                        <textarea id="decrypt-input" placeholder="> ENTER CIPHERTEXT..."></textarea>
+                        <textarea id="decrypt-input" placeholder="&gt; ENTER CIPHERTEXT..."></textarea>
                         <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT ▼</button>
                         <div style="font-size: 0.8rem; color: var(--fg-dim);">RECOVERED_PLAINTEXT:</div>
                         <div class="output-container">
@@ -459,7 +460,7 @@
                 <div class="panel-body">
                     <div class="widget">
                         <div class="widget-title">FIREWALL_STATUS</div>
-                        <div style="font-size: 1rem; color: var(--fg); font-weight:bold;">SHIELD_ACTIVE</div>
+                        <div style="font-size: 1rem; color: var(--fg-bright); font-weight:bold;">SHIELD_ACTIVE</div>
                     </div>
                     <div class="widget" style="flex-grow: 1; overflow: hidden; background: transparent; border:none; padding:0;">
                         <div class="widget-title" style="margin-bottom: 10px; border-bottom: 1px solid var(--fg-dim); padding-bottom:5px;">LIVE_PACKET_STREAM</div>
@@ -519,7 +520,7 @@
                 sndSuccess();
                 const originalHTML = btnElement.innerHTML;
                 btnElement.innerHTML = "COPIED";
-                btnElement.style.background = "#fff";
+                btnElement.style.background = "#ffd700";
                 btnElement.style.color = "#000";
                 setTimeout(() => {
                     btnElement.innerHTML = originalHTML;
@@ -552,7 +553,7 @@
             btn.addEventListener('mousedown', sndClick);
         });
 
-        const MASTER_PASS = "moderian";
+        const MASTER_PASS = "Gamble";
         function verifyPass() {
             const input = passInput.value;
             const card = document.getElementById('auth-card');
@@ -560,7 +561,7 @@
             if (input === MASTER_PASS) {
                 sndSuccess();
                 passInput.value = "GRANTED";
-                document.getElementById('lock-status').style.color = "#ffffff";
+                document.getElementById('lock-status').style.color = "#ffd700";
                 document.getElementById('lock-status').innerText = "GRANTED";
                 
                 setTimeout(() => {
@@ -575,7 +576,7 @@
                 card.classList.add('shake');
                 passInput.value = "";
                 passInput.placeholder = "DENIED";
-                document.getElementById('auth-card').style.borderColor = "#ffffff";
+                document.getElementById('auth-card').style.borderColor = "#ff0000";
                 document.getElementById('auth-card').style.boxShadow = "var(--glow-alert)";
                 document.querySelectorAll('.pass-dot').forEach(d => d.classList.remove('active'));
                 setTimeout(() => {
@@ -601,7 +602,7 @@
             const enc = new TextEncoder();
             const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
             return crypto.subtle.deriveKey(
-                { name: "PBKDF2", salt: enc.encode("MONO_SALT"), iterations: 100000, hash: "SHA-256" },
+                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 100000, hash: "SHA-256" },
                 keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
             );
         }
@@ -701,7 +702,7 @@
         let angle = 0;
         function drawRadar() {
             rCtx.clearRect(0, 0, 180, 180);
-            rCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            rCtx.strokeStyle = 'rgba(212, 175, 55, 0.3)';
             rCtx.lineWidth = 1;
             rCtx.beginPath(); 
             rCtx.arc(90, 90, 80, 0, Math.PI * 2); 
@@ -709,13 +710,13 @@
             rCtx.arc(90, 90, 20, 0, Math.PI * 2); 
             rCtx.stroke();
             
-            rCtx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            rCtx.strokeStyle = 'rgba(212, 175, 55, 0.15)';
             rCtx.beginPath();
             rCtx.moveTo(90, 10); rCtx.lineTo(90, 170);
             rCtx.moveTo(10, 90); rCtx.lineTo(170, 90);
             rCtx.stroke();
 
-            rCtx.strokeStyle = '#ffffff';
+            rCtx.strokeStyle = '#ffd700';
             rCtx.lineWidth = 2;
             rCtx.beginPath(); 
             rCtx.moveTo(90, 90); 
@@ -734,17 +735,19 @@
         const matrixChars = ALL_RAND_CHARS.split('');
         const drops = Array(Math.floor(window.innerWidth / 14)).fill(1);
         setInterval(() => {
-            bgCtx.fillStyle = 'rgba(0, 0, 0, 0.12)';
+            bgCtx.fillStyle = 'rgba(5, 5, 5, 0.12)';
             bgCtx.fillRect(0, 0, bgCanvas.width, bgCanvas.height);
-            bgCtx.fillStyle = '#ffffff';
+            bgCtx.fillStyle = '#d4af37';
             bgCtx.font = '12px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
                 bgCtx.fillText(char, i * 14, drops[i] * 14);
-                if (drops[i] * 14 > bgCanvas.height && Math.random() > 0.97) drops[i] = 0;
+                if (drops[i] * 14 > bgCanvas.height && Math.random() > 0.975) {
+                    drops[i] = 0;
+                }
                 drops[i]++;
             }
-        }, 30);
+        }, 50);
     </script>
 </body>
 </html>

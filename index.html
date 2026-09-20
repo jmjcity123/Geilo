@@ -3,18 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GAMBLE_CORE // WHITE_EDITION</title>
+    <title>GAMBLE_CORE // YELLOW_EDITION</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
         :root {
             --bg: #030303;
             --panel-bg: rgba(10, 10, 10, 0.85);
-            --fg: #ffffff;
-            --fg-dim: #777777;
-            --border: 1px solid rgba(255, 255, 255, 0.2);
-            --glow: 0 0 10px rgba(255, 255, 255, 0.4);
-            --glow-strong: 0 0 20px rgba(255, 255, 255, 0.7);
+            --fg: #ffcc00;
+            --fg-dim: #887733;
+            --border: 1px solid rgba(255, 204, 0, 0.3);
+            --glow: 0 0 10px rgba(255, 204, 0, 0.4);
+            --glow-strong: 0 0 20px rgba(255, 204, 0, 0.7);
         }
 
         * {
@@ -100,10 +100,10 @@
         .pass-row {
             display: flex;
             align-items: center;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 204, 0, 0.03);
             border: var(--border);
             padding: 12px 18px;
-            box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
+            box-shadow: inset 0 0 10px rgba(255, 204, 0, 0.05);
         }
 
         .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
@@ -167,7 +167,7 @@
         .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
 
         .btn-discord {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 204, 0, 0.05);
             border: var(--border);
             color: var(--fg);
             padding: 6px 12px;
@@ -201,7 +201,7 @@
         }
 
         .panel-head {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 204, 0, 0.05);
             border-bottom: var(--border);
             color: var(--fg);
             padding: 10px 15px;
@@ -241,7 +241,7 @@
         textarea:focus { border-color: var(--fg); box-shadow: var(--glow); }
 
         .btn-cyber {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 204, 0, 0.05);
             color: var(--fg);
             border: var(--border);
             padding: 10px;
@@ -277,7 +277,7 @@
         }
 
         .btn-copy {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 204, 0, 0.05);
             border: var(--border);
             border-top: none;
             color: var(--fg);
@@ -312,7 +312,7 @@
             width: 100px;
             height: 100px;
             border-radius: 50%;
-            border: 1px dashed rgba(255, 255, 255, 0.3);
+            border: 1px dashed rgba(255, 204, 0, 0.3);
             animation: spin 4s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
@@ -340,7 +340,7 @@
                 <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD PASS</a>
             </div>
             <div class="boot-seq" id="boot-seq">
-                &gt; INITIALIZING SECURE WHITE_CORE...<br>
+                &gt; INITIALIZING SECURE YELLOW_CORE...<br>
                 &gt; LOADING ENCRYPTION MODULES...<br>
                 &gt; ENTER MASTER KEY TO BYPASS PROTOCOL...
             </div>
@@ -446,7 +446,7 @@
     </div>
 
     <script>
-        // Matrix Rain Effect (in White)
+        // Matrix Rain Effect (in Yellow)
         const canvas = document.getElementById('matrix-canvas');
         const ctx = canvas.getContext('2d');
         function resizeCanvas() {
@@ -465,7 +465,7 @@
         function drawMatrix() {
             ctx.fillStyle = 'rgba(3, 3, 3, 0.08)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = '#ffffff';
+            ctx.fillStyle = '#ffcc00';
             ctx.font = fontSize + 'px monospace';
             for (let i = 0; i < drops.length; i++) {
                 const text = letters.charAt(Math.floor(Math.random() * letters.length));
@@ -572,11 +572,10 @@
             });
         }
 
-        // Cleane Decoder/Encoder Animations-Funktion
         function animateTranslating(elementId, finalResult, isError = false) {
             const el = document.getElementById(elementId);
             let frame = 0;
-            const maxFrames = 12; // Wie viele Animationsschritte
+            const maxFrames = 12;
             const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=?!";
             
             const interval = setInterval(() => {

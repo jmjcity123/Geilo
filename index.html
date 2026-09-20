@@ -1,334 +1,634 @@
 <!DOCTYPE html>
-
 <html lang="de">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>GAMBLE_CORE // WHITE_EDITION</title>
-
     <style>
-
         @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-
         :root {
-
             --bg: #030303;
-
             --panel-bg: rgba(10, 10, 10, 0.85);
-
             --fg: #ffffff;
-
             --fg-dim: #777777;
-
             --border: 1px solid rgba(255, 255, 255, 0.2);
-
             --glow: 0 0 10px rgba(255, 255, 255, 0.4);
-
             --glow-strong: 0 0 20px rgba(255, 255, 255, 0.7);
-
         }
-
 
         * {
-
             box-sizing: border-box;
-
             margin: 0;
-
             padding: 0;
-
             font-family: 'Share Tech Mono', monospace;
-
             text-transform: uppercase;
-
             user-select: none;
-
         }
-
 
         body {
-
             background-color: var(--bg);
-
             color: var(--fg);
-
             height: 100vh;
-
             width: 100vw;
-
             overflow: hidden;
-
             display: flex;
-
             flex-direction: column;
-
         }
-
 
         #matrix-canvas {
-
             position: fixed;
-
             top: 0;
-
             left: 0;
-
             width: 100vw;
-
             height: 100vh;
-
             z-index: 1;
-
             opacity: 0.15;
-
             pointer-events: none;
-
         }
-
 
         #lock-screen {
-
             position: fixed;
-
             inset: 0;
-
             background: rgba(3, 3, 3, 0.95);
-
             backdrop-filter: blur(8px);
-
             z-index: 1000;
-
             display: flex;
-
             flex-direction: column;
-
             justify-content: center;
-
             align-items: center;
-
         }
-
 
         .auth-card {
-
             border: var(--border);
-
             padding: 40px;
-
             width: 550px;
-
             background: var(--panel-bg);
-
             box-shadow: var(--glow-strong);
-
             position: relative;
-
             clip-path: polygon(0 0, 95% 0, 100% 10%, 100% 100%, 5% 100%, 0 90%);
-
         }
-
 
         .auth-title {
-
             font-size: 1.4rem;
-
             letter-spacing: 3px;
-
             margin-bottom: 15px;
-
             color: var(--fg);
-
             text-shadow: var(--glow);
-
             border-bottom: var(--border);
-
             padding-bottom: 12px;
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
         }
-
 
         .boot-seq {
-
             font-size: 0.8rem;
-
             color: var(--fg-dim);
-
             height: 75px;
-
             overflow: hidden;
-
             margin-bottom: 20px;
-
             line-height: 1.5;
-
         }
-
 
         .pass-container {
-
             display: flex;
-
             flex-direction: column;
-
             gap: 12px;
-
         }
-
 
         .pass-row {
-
             display: flex;
-
             align-items: center;
-
             background: rgba(255, 255, 255, 0.03);
-
             border: var(--border);
-
             padding: 12px 18px;
-
             box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.05);
-
         }
-
 
         .prompt-symbol { margin-right: 15px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
-
         
-
         input[type="password"] {
-
             background: transparent;
-
             border: none;
-
             color: var(--fg);
-
             font-size: 1.2rem;
-
             outline: none;
-
             width: 100%;
-
             letter-spacing: 4px;
-
         }
-
 
         .pass-dots {
-
             display: flex;
-
             gap: 10px;
-
             justify-content: center;
-
             margin-top: 5px;
-
         }
-
 
         .pass-dot {
-
             width: 10px;
-
             height: 10px;
-
             border: 1px solid var(--fg-dim);
-
             background: transparent;
-
             transform: rotate(45deg);
-
             transition: 0.2s;
-
         }
-
         .pass-dot.active {
-
             background: var(--fg);
-
             border-color: var(--fg);
-
             box-shadow: var(--glow);
-
         }
-
 
         #app {
-
             position: relative;
-
             z-index: 2;
-
             display: flex;
-
             flex-direction: column;
-
             height: 100vh;
-
             padding: 15px;
-
             gap: 12px;
-
             display: none;
-
         }
-
         #app.active { 
-
             display: flex; 
-
         }
-
 
         .top-bar {
-
             display: flex;
-
             justify-content: space-between;
-
             align-items: center;
-
             border: var(--border);
-
             padding: 12px 25px;
-
             background: var(--panel-bg);
-
             box-shadow: var(--glow);
-
         }
 
-
         .brand { font-size: 1.4rem; letter-spacing: 3px; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
-
         .top-controls { display: flex; gap: 20px; align-items: center; font-size: 0.9rem; }
 
-
         .btn-discord {
-
             background: rgba(255, 255, 255, 0.05);
-
             border: var(--border);
-
             color: var(--fg);
-
             padding: 6px 12px;
-
             cursor: pointer;
-
             font-size: 0.75rem;
+            font-weight: bold;
+            text-decoration: none;
+            letter-spacing: 1px;
+            transition: 0.2s;
+        }
+        .btn-discord:hover {
+            background: var(--fg);
+            color: #000;
+            box-shadow: var(--glow-strong);
+        }
 
-            font-weight: bold; 
+        .main-grid {
+            display: grid;
+            grid-template-columns: 300px 1fr 300px;
+            gap: 12px;
+            flex-grow: 1;
+            min-height: 0;
+        }
+
+        .panel {
+            border: var(--border);
+            background: var(--panel-bg);
+            display: flex;
+            flex-direction: column;
+            box-shadow: var(--glow);
+        }
+
+        .panel-head {
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: var(--border);
+            color: var(--fg);
+            padding: 10px 15px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .panel-body { padding: 15px; flex-grow: 1; display: flex; flex-direction: column; gap: 12px; overflow-y: auto; }
+
+        .widget {
+            border: var(--border);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .widget-title { font-size: 0.75rem; color: var(--fg-dim); letter-spacing: 1px; }
+        .widget-val { font-size: 1.2rem; font-weight: bold; color: var(--fg); text-shadow: var(--glow); }
+        .bar-outer { height: 6px; background: #000; border: var(--border); width: 100%; }
+        .bar-inner { height: 100%; background: var(--fg); width: 0%; box-shadow: var(--glow); transition: width 0.3s; }
+
+        textarea {
+            background: rgba(0, 0, 0, 0.5);
+            border: var(--border);
+            color: var(--fg);
+            width: 100%;
+            height: 75px;
+            padding: 10px;
+            resize: none;
+            outline: none;
+            font-size: 0.95rem;
+        }
+        textarea:focus { border-color: var(--fg); box-shadow: var(--glow); }
+
+        .btn-cyber {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--fg);
+            border: var(--border);
+            padding: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-size: 0.8rem;
+            transition: 0.2s;
+        }
+        .btn-cyber:hover {
+            background: var(--fg);
+            color: #000;
+            box-shadow: var(--glow-strong);
+        }
+
+        .output-container {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .output-box {
+            word-break: break-all;
+            font-size: 0.85rem;
+            color: var(--fg);
+            min-height: 70px;
+            max-height: 100px;
+            overflow-y: auto;
+            border: var(--border);
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.6);
+            line-height: 1.4;
+        }
+
+        .btn-copy {
+            background: rgba(255, 255, 255, 0.05);
+            border: var(--border);
+            border-top: none;
+            color: var(--fg);
+            padding: 8px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            transition: 0.2s;
+        }
+        .btn-copy:hover {
+            background: var(--fg);
+            color: #000;
+            box-shadow: var(--glow);
+        }
+
+        .error-text { color: #ff5555 !important; border-color: #ff5555 !important; text-shadow: 0 0 10px rgba(255, 85, 85, 0.6); }
+
+        .radar-box {
+            position: relative;
+            height: 130px;
+            background: rgba(0, 0, 0, 0.6);
+            border: var(--border);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .radar-sweep {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 1px dashed rgba(255, 255, 255, 0.3);
+            animation: spin 4s linear infinite;
+        }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        .terminal-log-extended {
+            font-size: 0.7rem;
+            color: var(--fg-dim);
+            line-height: 1.4;
+            height: 100%;
+            overflow-y: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrix-canvas"></canvas>
+
+    <div id="lock-screen">
+        <div class="auth-card" id="auth-card">
+            <div class="auth-title">
+                <span>GAMBLE // AUTH</span>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD PASS</a>
+            </div>
+            <div class="boot-seq" id="boot-seq">
+                &gt; INITIALIZING SECURE WHITE_CORE...<br>
+                &gt; LOADING ENCRYPTION MODULES...<br>
+                &gt; ENTER MASTER KEY TO BYPASS PROTOCOL...
+            </div>
+            <div class="pass-container">
+                <div class="pass-row">
+                    <span class="prompt-symbol">KEY://</span>
+                    <input type="password" id="pass-input" maxlength="12" autofocus placeholder="••••••••">
+                </div>
+                <div class="pass-dots" id="pass-dots">
+                    <div class="pass-dot"></div>
+                    <div class="pass-dot"></div>
+                    <div class="pass-dot"></div>
+                    <div class="pass-dot"></div>
+                    <div class="pass-dot"></div>
+                    <div class="pass-dot"></div>
+                    <div class="pass-dot"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="app">
+        <div class="top-bar">
+            <div class="brand">GAMBLE GMBH</div>
+            <div class="top-controls">
+                <div>SYS_TIME: <span id="clock">00:00:00</span></div>
+                <a href="https://discord.gg/KEAJwqudQK" target="_blank" class="btn-discord">DISCORD</a>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="panel">
+                <div class="panel-head">SYS_TELEMETRY</div>
+                <div class="panel-body">
+                    <div class="widget">
+                        <div class="widget-title">CPU_LOAD</div>
+                        <div class="widget-val" id="cpu-val">0%</div>
+                        <div class="bar-outer"><div class="bar-inner" id="cpu-bar"></div></div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-title">RAM_USAGE</div>
+                        <div class="widget-val" id="ram-val">0.0 GB</div>
+                        <div class="bar-outer"><div class="bar-inner" id="ram-bar"></div></div>
+                    </div>
+                    <div class="widget">
+                        <div class="widget-title">RADAR_SCAN</div>
+                        <div class="radar-box">
+                            <div class="radar-sweep"></div>
+                            <div style="font-size: 0.75rem; letter-spacing: 2px; color: var(--fg);">ACTIVE_GRID</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="display: grid; grid-template-rows: 1fr 1fr; gap: 12px; min-height: 0;">
+                <div class="panel">
+                    <div class="panel-head">
+                        <span>[01] ENCRYPT</span>
+                        <span>AES-256</span>
+                    </div>
+                    <div class="panel-body">
+                        <textarea id="encrypt-input" placeholder="&gt; ENTER PLAINTEXT..."></textarea>
+                        <button class="btn-cyber" onclick="processEncrypt()">EXECUTE_ENCRYPT</button>
+                        <div style="font-size: 0.75rem; color: var(--fg-dim);">OUTPUT:</div>
+                        <div class="output-container">
+                            <div class="output-box" id="encrypt-output">_</div>
+                            <button class="btn-copy" onclick="copyToClipboard('encrypt-output', this)">COPY</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-head">
+                        <span>[02] DECRYPT</span>
+                        <span>REVERSE</span>
+                    </div>
+                    <div class="panel-body">
+                        <textarea id="decrypt-input" placeholder="&gt; ENTER CIPHERTEXT..."></textarea>
+                        <button class="btn-cyber" onclick="processDecrypt()">EXECUTE_DECRYPT</button>
+                        <div style="font-size: 0.75rem; color: var(--fg-dim);">OUTPUT:</div>
+                        <div class="output-container">
+                            <div class="output-box" id="decrypt-output">_</div>
+                            <button class="btn-copy" onclick="copyToClipboard('decrypt-output', this)">COPY</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel">
+                <div class="panel-head">GLOBAL_FEED</div>
+                <div class="panel-body">
+                    <div class="widget">
+                        <div class="widget-title">FIREWALL</div>
+                        <div style="font-size: 0.9rem; color: var(--fg); text-shadow: var(--glow);">SECURED</div>
+                    </div>
+                    <div class="widget" style="flex-grow: 1; overflow: hidden; background: #000;">
+                        <div class="widget-title" style="margin-bottom: 6px; border-bottom: var(--border); padding-bottom:3px;">PACKET_STREAM</div>
+                        <div id="traffic-stream" class="terminal-log-extended"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Matrix Rain Effect (in White)
+        const canvas = document.getElementById('matrix-canvas');
+        const ctx = canvas.getContext('2d');
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=";
+        const fontSize = 14;
+        let columns = canvas.width / fontSize;
+        const drops = [];
+        for (let x = 0; x < columns; x++) drops[x] = 1;
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(3, 3, 3, 0.08)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = fontSize + 'px monospace';
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters.charAt(Math.floor(Math.random() * letters.length));
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) drops[i] = 0;
+                drops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 33);
+
+        const passInput = document.getElementById('pass-input');
+        passInput.addEventListener('input', () => {
+            const len = passInput.value.length;
+            const dots = document.querySelectorAll('.pass-dot');
+            dots.forEach((dot, idx) => {
+                if (idx < len) dot.classList.add('active');
+                else dot.classList.remove('active');
+            });
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.id === 'pass-input') verifyPass();
+        });
+
+        const MASTER_PASS = "Gamble";
+        let isUnlocked = false;
+
+        function verifyPass() {
+            if (passInput.value === MASTER_PASS) {
+                isUnlocked = true;
+                document.getElementById('lock-screen').style.display = 'none';
+                document.getElementById('app').classList.add('active');
+            } else {
+                passInput.value = "";
+                passInput.placeholder = "DENIED";
+                document.querySelectorAll('.pass-dot').forEach(d => d.classList.remove('active'));
+                setTimeout(() => { passInput.placeholder = "••••••••"; }, 500);
+            }
+        }
+
+        const MAP_3X = {
+            '0': '7/!', '1': '0§&', '2': '9)?', '3': '4!$',
+            '4': '1(=', '5': '8?(', '6': '3/§', '7': '6&=',
+            '8': '2!/', '9': '5§?', 'a': '0)=', 'b': '4!/',
+            'c': '8&$', 'd': '1?(', 'e': '7/=', 'f': '3§!'
+        };
+        const REVERSE_MAP_3X = {};
+        for (let key in MAP_3X) REVERSE_MAP_3X[MAP_3X[key]] = key;
+
+        async function getCryptoKey() {
+            const enc = new TextEncoder();
+            const keyMaterial = await crypto.subtle.importKey("raw", enc.encode(MASTER_PASS), { name: "PBKDF2" }, false, ["deriveKey"]);
+            return crypto.subtle.deriveKey(
+                { name: "PBKDF2", salt: enc.encode("GAMBLE_SALT"), iterations: 10000, hash: "SHA-256" },
+                keyMaterial, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]
+            );
+        }
+
+        function bufferToHex(buffer) { return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join(''); }
+        function hexToBuffer(hexString) {
+            const bytes = new Uint8Array(Math.ceil(hexString.length / 2));
+            for (let i = 0; i < bytes.length; i++) bytes[i] = parseInt(hexString.substr(i * 2, 2), 16);
+            return bytes;
+        }
+
+        async function encryptData(text) {
+            const key = await getCryptoKey();
+            const iv = crypto.getRandomValues(new Uint8Array(12));
+            const encoded = new TextEncoder().encode(text);
+            const ciphertext = await crypto.subtle.encrypt({ name: "AES-GCM", iv: iv }, key, encoded);
+            const combined = new Uint8Array(iv.length + ciphertext.byteLength);
+            combined.set(iv, 0); combined.set(new Uint8Array(ciphertext), iv.length);
+            const hex = bufferToHex(combined);
+            let ultraPayload = "";
+            for (let i = 0; i < hex.length; i++) ultraPayload += MAP_3X[hex[i]] || "";
+            return ultraPayload;
+        }
+
+        async function decryptData(ultraCipher) {
+            try {
+                const cleanInput = ultraCipher.trim();
+                let hex = "";
+                for (let i = 0; i < cleanInput.length; i += 3) {
+                    const token = cleanInput.substr(i, 3);
+                    if (REVERSE_MAP_3X[token]) hex += REVERSE_MAP_3X[token];
+                }
+                if (!hex || hex.length < 24) throw new Error("INVALID");
+                const combined = hexToBuffer(hex);
+                const iv = combined.slice(0, 12);
+                const ciphertext = combined.slice(12);
+                const key = await getCryptoKey();
+                const decrypted = await crypto.subtle.decrypt({ name: "AES-GCM", iv: iv }, key, ciphertext);
+                return new TextDecoder().decode(decrypted);
+            } catch (e) { return "[ERROR: CORRUPT]"; }
+        }
+
+        function copyToClipboard(elementId, btnElement) {
+            const text = document.getElementById(elementId).innerText;
+            if (!text || text === "_" || text.startsWith("[ERROR")) return;
+            navigator.clipboard.writeText(text).then(() => {
+                const orig = btnElement.innerText;
+                btnElement.innerText = "OK";
+                setTimeout(() => { btnElement.innerText = orig; }, 1000);
+            });
+        }
+
+        // Cleane Decoder/Encoder Animations-Funktion
+        function animateTranslating(elementId, finalResult, isError = false) {
+            const el = document.getElementById(elementId);
+            let frame = 0;
+            const maxFrames = 12; // Wie viele Animationsschritte
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&§/()=?!";
+            
+            const interval = setInterval(() => {
+                if (frame < maxFrames) {
+                    let randomStr = "";
+                    const len = finalResult.length > 0 ? finalResult.length : 20;
+                    for(let i=0; i<len; i++) {
+                        randomStr += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    el.innerText = randomStr;
+                    frame++;
+                } else {
+                    clearInterval(interval);
+                    el.innerText = finalResult;
+                    if (isError) el.classList.add('error-text');
+                    else el.classList.remove('error-text');
+                }
+            }, 35);
+        }
+
+        async function processEncrypt() {
+            const input = document.getElementById('encrypt-input').value;
+            if (!input.trim()) return;
+            const res = await encryptData(input);
+            animateTranslating('encrypt-output', res, false);
+        }
+
+        async function processDecrypt() {
+            const input = document.getElementById('decrypt-input').value;
+            if (!input.trim()) return;
+            const res = await decryptData(input);
+            const isErr = res.includes("ERROR");
+            animateTranslating('decrypt-output', res, isErr);
+        }
+
+        setInterval(() => {
+            if (!isUnlocked) return;
+            document.getElementById('clock').innerText = new Date().toLocaleTimeString('de-DE');
+            
+            const cpu = Math.floor(Math.random() * 25 + 10);
+            document.getElementById('cpu-val').innerText = cpu + "%";
+            document.getElementById('cpu-bar').style.width = cpu + "%";
+            const ram = (4.2 + Math.random() * 0.4).toFixed(2);
+            document.getElementById('ram-val').innerText = ram + " GB";
+            document.getElementById('ram-bar').style.width = (ram / 16 * 100) + "%";
+
+            const stream = document.getElementById('traffic-stream');
+            const line = document.createElement('div');
+            line.innerText = `0x${Math.floor(Math.random()*999999).toString(16).toUpperCase()} // OK`;
+            stream.prepend(line);
+            if(stream.children.length > 5) stream.removeChild(stream.lastChild);
+        }, 1000);
+    </script>
+</body>
+</html>
